@@ -2,10 +2,11 @@ from typing import Any
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from enum import Enum
 
 # Create your models here.
-class CustomerManager(BaseUserManager):
-    def create_user(self, email, username, other_names, last_name, date_of_birth, mobile_phone, password=None, **extra_fields):
+class UserManager(BaseUserManager):
+    def create_user(self, email, username, other_names, last_name, date_of_birth, mobile_phone, password=None, is_driver=False, **extra_fields):
         if not email:
             raise ValueError('Users must have an email address')
         if not username:
@@ -18,6 +19,7 @@ class CustomerManager(BaseUserManager):
             last_name=last_name,
             date_of_birth=date_of_birth,
             mobile_phone=mobile_phone,
+            is_driver=is_driver,
             **extra_fields
         )
 
@@ -47,30 +49,56 @@ class Customer(AbstractBaseUser):
     username = models.CharField(max_length=30, blank=False, null=False, unique=True)
     date_of_birth = models.DateField(blank=False, null=False)
     user_type = models.CharField(max_length=20, choices=CUSTOMER_TYPES, default=CUSTOMER_TYPES[0][0]) 
-
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
+    is_driver = models.BooleanField(default=False)
 
-    objects = CustomerManager()
+    objects = UserManager()
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email', 'other_names', 'last_name', 'date_of_birth', 'mobile_phone']
 
+
+
+
+
+
+
+
     def __str__(self):
         return f"{self.other_names} {self.last_name}"
 
-    def has_perm(self, perm, obj=None):
-        "Does the user have a specific permission?"
-        return True
+    
 
-    def has_module_perms(self, app_label):
-        "Does the user have permissions to view the app `app_label`?"
-        return True
 
-    @property
-    def is_staff(self):
-        "Is the user a member of staff?"
-        return self.is_admin
+
+class Driver(AbstractBaseUser):
+    other_names= models.CharField(max_length=60, blank=False, null=False)
+    last_name = models.CharField(max_length=30, blank=False, null=True)
+    email = models.EmailField(verbose_name = 'email address', unique=True)
+    driver_license_number = models.CharField(max_length=20, blank=False, null=False)
+    password = models.CharField(max_length=255, blank=False, null=False)
+    date_of_birth = models.DateField(blank=False, null=False)
+    is_active= models.BooleanField(default=True)
+    is_admin= models.BooleanField(default=False)
+    is_driver = models.BooleanField(default=True)
+
+
+    objects = UserManager()
+
+    USERNAME_FIELD = 'email'
+
+    def __str__(self):
+        return f"{self.other_names} {self.last_name}"
+    
+
+
+
+
+class Vehicle(models.Model):
+    License_plate_number= models.CharField(max_length=11, null=False)
+    Driver = models.ForeignKey(Driver)
+
     
 
 
@@ -126,13 +154,50 @@ class Schedule(models.Model):
     ]
 
     
-    start_date = models.DateTimeField(blank=False, null=False)
-    end_date = models.DateTimeField(blank=False, null=False)
+    start_date = models.DateField(blank=False, null=False)
+    end_date = models.DateField(blank=False, null=False)
     Customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    location = models.CharField(max_length = 30, null=False)
+    location = models.CharField(max_length = 30, blank=False, null=False)
     frequency = models.CharField(max_length=20, choices=FREQUENCY_CHOICES, default=FREQUENCY_CHOICES[0][0])
     days = PickUpDaysField(max_length=50, blank=True)
 
     def __str__(self):
         return f'Schedule for {Customer.other_names}'
     
+class IssueStatus(Enum):
+    PENDING = 'Pending'
+    RESOLVED = 'Resolved'
+
+
+
+class Issue(models.Model):
+    ISSUE_TYPE = [
+        ('missed pickups', 'Missed pickups'),
+        ('poor service', 'Poor service')
+    ]
+
+
+
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    issue_type = models.CharField(max_length=30, choices=ISSUE_TYPE, default=ISSUE_TYPE[0][0])
+    description = models.TextField()
+    status = models.CharField(max_length=13, choices=[(tag, tag.value) for tag in IssueStatus])
+    
+
+
+class PickUpStatus(Enum):
+    PENDING = 'Pending'
+    COMPLETED = 'Completed'
+
+
+
+
+
+
+
+
+class Collection(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE)
+    date = models.DateTimeField()
+    status = models.CharField(max_length=13, choices=[(tag, tag.value) for tag in PickUpStatus])
