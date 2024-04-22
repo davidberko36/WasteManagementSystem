@@ -97,8 +97,8 @@ class Driver(AbstractBaseUser):
 
 class Vehicle(models.Model):
     License_plate_number= models.CharField(max_length=11, null=False)
-    Driver = models.ForeignKey(Driver)
-
+    Driver = models.ForeignKey(Driver, on_delete=models.SET_NULL)
+    capacity_litres = models.FloatField()
     
 
 
@@ -201,3 +201,5 @@ class Collection(models.Model):
     schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE)
     date = models.DateTimeField()
     status = models.CharField(max_length=13, choices=[(tag, tag.value) for tag in PickUpStatus])
+    driver = models.ForeignKey(Driver, on_delete=models.SET_NULL)
+    vehicle = models.ForeignKey(Vehicle, on_delete=models.SET_NULL)
