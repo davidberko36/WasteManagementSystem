@@ -74,7 +74,7 @@ class Customer(AbstractBaseUser):
 
 class Driver(AbstractBaseUser):
     other_names= models.CharField(max_length=60, blank=False, null=False)
-    last_name = models.CharField(max_length=30, blank=False, null=True)
+    last_name = models.CharField(max_length=30, blank=False, null=False)
     email = models.EmailField(verbose_name = 'email address', unique=True)
     driver_license_number = models.CharField(max_length=20, blank=False, null=False)
     password = models.CharField(max_length=255, blank=False, null=False)
