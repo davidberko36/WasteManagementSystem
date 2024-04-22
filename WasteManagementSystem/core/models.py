@@ -74,7 +74,7 @@ class Customer(AbstractBaseUser):
 
 class Driver(AbstractBaseUser):
     other_names= models.CharField(max_length=60, blank=False, null=False)
-    last_name = models.CharField(max_length=30, blank=False, null=True)
+    last_name = models.CharField(max_length=30, blank=False, null=False)
     email = models.EmailField(verbose_name = 'email address', unique=True)
     driver_license_number = models.CharField(max_length=20, blank=False, null=False)
     password = models.CharField(max_length=255, blank=False, null=False)
@@ -97,8 +97,8 @@ class Driver(AbstractBaseUser):
 
 class Vehicle(models.Model):
     License_plate_number= models.CharField(max_length=11, null=False)
-    Driver = models.ForeignKey(Driver)
-
+    Driver = models.ForeignKey(Driver, on_delete=models.SET_NULL)
+    capacity_litres = models.FloatField()
     
 
 
@@ -201,3 +201,5 @@ class Collection(models.Model):
     schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE)
     date = models.DateTimeField()
     status = models.CharField(max_length=13, choices=[(tag, tag.value) for tag in PickUpStatus])
+    driver = models.ForeignKey(Driver, on_delete=models.SET_NULL)
+    vehicle = models.ForeignKey(Vehicle, on_delete=models.SET_NULL)
