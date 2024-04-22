@@ -1,5 +1,7 @@
+from typing import Any
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 class CustomerManager(BaseUserManager):
@@ -69,3 +71,68 @@ class Customer(AbstractBaseUser):
     def is_staff(self):
         "Is the user a member of staff?"
         return self.is_admin
+    
+
+
+
+PICKUP_DAYS = (
+        ('sunday', 'Sunday'),
+        ('monday', 'Monday'),
+        ('tuesday', 'Tuesday'),
+        ('wednesday', 'Wednesday'),
+        ('thursday', 'Thursday'),
+        ('friday', 'Friday'),
+        ('saturday', 'Saturday')
+)
+
+
+
+class PickUpDaysField(models.CharField):
+    description = _('A list of the days of the week')
+
+
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('choices', PICKUP_DAYS)
+        super(PickUpDaysField, self).__init__(*args, **kwargs)
+
+
+    def to_python(self, value):
+        if isinstance(value, list):
+            return value
+        
+        return value.split(',')
+    
+
+
+    def get_prep_value(self, value):
+        return ','.join(value)
+
+
+
+    def value_to_string(self, obj):
+        value = self.value_from_object(obj)
+        return self.get_prep_value(value)
+
+
+
+
+
+
+class Schedule(models.Model):
+    FREQUENCY_CHOICES = [
+        ('weekly', 'Weekly'),
+        ('bi-weekly', 'Bi-weekly'),
+        ('daily', 'Daily')
+    ]
+
+    
+    start_date = models.DateTimeField(blank=False, null=False)
+    end_date = models.DateTimeField(blank=False, null=False)
+    Customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    location = models.CharField(max_length = 30, null=False)
+    frequency = models.CharField(max_length=20, choices=FREQUENCY_CHOICES, default=FREQUENCY_CHOICES[0][0])
+    days = PickUpDaysField(max_length=50, blank=True)
+
+    def __str__(self):
+        return f'Schedule for {Customer.other_names}'
+    
