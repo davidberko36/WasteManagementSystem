@@ -76,6 +76,7 @@ class Driver(AbstractBaseUser):
     other_names= models.CharField(max_length=60, blank=False, null=False)
     last_name = models.CharField(max_length=30, blank=False, null=False)
     email = models.EmailField(verbose_name = 'email address', unique=True)
+    mobile_phone = models.CharField(max_length=15, blank=False, null=False)
     driver_license_number = models.CharField(max_length=20, blank=False, null=False)
     password = models.CharField(max_length=255, blank=False, null=False)
     date_of_birth = models.DateField(blank=False, null=False)
