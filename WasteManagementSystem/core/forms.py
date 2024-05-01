@@ -16,12 +16,12 @@ class SignupForm(UserCreationForm):
     email = forms.EmailField(max_length=255, required=True)
     mobile_phone = forms.CharField(max_length=14, required=True)
     date_of_birth = forms.DateField(required=True)
-    customer_type = forms.ChoiceField(max_length = 20, choices=CUSTOMER_TYPES, default=CUSTOMER_TYPES [0][0])
+    #customer_type = forms.ChoiceField(max_length = 20, choices=CUSTOMER_TYPES, default=CUSTOMER_TYPES [0][0])
 
 
     class Meta:
         model = Customer
-        fields = ['other_names', 'last_name', 'address', 'email', 'mobile_phone', 'username', 'date_of_birth', 'customer_type']
+        fields = ['other_names', 'last_name', 'address', 'email', 'mobile_phone', 'username', 'date_of_birth']
 
 
 
