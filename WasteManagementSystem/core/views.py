@@ -1,19 +1,51 @@
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth import login
 from .forms import SignupForm, DriverCreationForm
 
-def customer_signup(request):
+
+
+
+
+def home(request):
+    return render(request, 'index.html')
+
+
+
+def signup(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return JsonResponse({'success': True, 'message': 'Customer registration successful'})
-        else:
-            return JsonResponse({'success': False, 'errors': form.errors})
+            form.save()
+            return redirect('home')
     else:
         form = SignupForm()
-    return JsonResponse({'success': False, 'message': 'Invalid request method'})
+    return render(request, 'signup.html', {'form': form})
+
+
+
+
+
+
+
+
+
+
+
+
+
+# def customer_signup(request):
+#     if request.method == 'POST':
+#         form = SignupForm(request.POST)
+#         if form.is_valid():
+#             user = form.save()
+#             login(request, user)
+#             return JsonResponse({'success': True, 'message': 'Customer registration successful'})
+#         else:
+#             return JsonResponse({'success': False, 'errors': form.errors})
+#     else:
+#         form = SignupForm()
+#     return JsonResponse({'success': False, 'message': 'Invalid request method'})
 
 def driver_signup(request):
     if request.method == 'POST':
