@@ -26,6 +26,14 @@ class SignupForm(UserCreationForm):
 
 
 
+class SignInForm(AuthenticationForm):
+    class Meta:
+        model = Customer
+        fields = ['username', 'password']
+
+
+
+
 
 class DriverCreationForm(UserCreationForm):
     other_names=forms.CharField(max_length=60, required=True)

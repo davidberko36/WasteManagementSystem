@@ -4,20 +4,22 @@
 
 {% block content %}
 <div class="bg-gray-100 min-h-screen flex items-center justify-center">
-    <div class="bg-white p-8 rounded-lg shadow-md">
+    <div class="bg-white p-8 rounded-lg shadow-md w-1/2">
         <h2 class="text-2xl font-bold mb-4">Sign Up</h2>
         <form method="post">
             {% csrf_token %}
             {{ form.non_field_errors }}
-            <div class="mb-4">
-                <label for="id_other_names" class="block text-sm font-medium text-gray-700">Other Names</label>
-                {{ form.other_names }}
-                {{ form.other_names.errors }}
-            </div>
-            <div class="mb-4">
-                <label for="id_last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
-                {{ form.last_name }}
-                {{ form.last_name.errors }}
+            <div class="grid grid-cols-2 gap-x-4 mb-4">
+                <div>
+                    <label for="id_other_names" class="block text-sm font-medium text-gray-700">Other Names</label>
+                    {{ form.other_names }}
+                    {{ form.other_names.errors }}
+                </div>
+                <div>
+                    <label for="id_last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
+                    {{ form.last_name }}
+                    {{ form.last_name.errors }}
+                </div>
             </div>
             <div class="mb-4">
                 <label for="id_address" class="block text-sm font-medium text-gray-700">Address</label>
@@ -34,15 +36,17 @@
                 {{ form.mobile_phone }}
                 {{ form.mobile_phone.errors }}
             </div>
-            <div class="mb-4">
-                <label for="id_username" class="block text-sm font-medium text-gray-700">Username</label>
-                {{ form.username }}
-                {{ form.username.errors }}
-            </div>
-            <div class="mb-4">
-                <label for="id_date_of_birth" class="block text-sm font-medium text-gray-700">Date of Birth</label>
-                {{ form.date_of_birth }}
-                {{ form.date_of_birth.errors }}
+            <div class="grid grid-cols-2 gap-x-4 mb-4">
+                <div>
+                    <label for="id_username" class="block text-sm font-medium text-gray-700">Username</label>
+                    {{ form.username }}
+                    {{ form.username.errors }}
+                </div>
+                <div>
+                    <label for="id_date_of_birth" class="block text-sm font-medium text-gray-700">Date of Birth</label>
+                    <input type="date" id="id_date_of_birth" name="date_of_birth" class="border-gray-300 focus:border-green-500 focus:ring focus:ring-green-500 focus:ring-opacity-50 rounded-md shadow-sm">
+                    {{ form.date_of_birth.errors }}
+                </div>
             </div>
             <div class="mb-4">
                 <label for="id_password1" class="block text-sm font-medium text-gray-700">Password</label>
