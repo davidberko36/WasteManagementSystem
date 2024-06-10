@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <h2 class="text-3xl font-bold text-gray-800">Welcome to our Waste Management System</h2>
+    <p class="text-gray-600 mt-2">We provide comprehensive waste management solutions to businesses, individuals, and communities.</p>
+
+    <div class="mt-8">
+        <h3 class="text-2xl font-bold text-gray-800">Our Services</h3>
+        <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h4 class="text-xl font-semibold text-gray-800">Waste Collection</h4>
+                <p class="mt-2 text-gray-600">We offer efficient waste collection services tailored to your needs.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h4 class="text-xl font-semibold text-gray-800">Recycling Programs</h4>
+                <p class="mt-2 text-gray-600">Our recycling programs help reduce waste and promote sustainability.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h4 class="text-xl font-semibold text-gray-800">Waste Disposal</h4>
+                <p class="mt-2 text-gray-600">We ensure responsible waste disposal in compliance with environmental regulations.</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
