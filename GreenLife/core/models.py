@@ -86,4 +86,33 @@ class Schedule(models.Model):
         return f"{self.User.last_name}'s schedule"
 
 
+class Collection(models.Model):
+    STATUS = (
+        ('pending', 'Pending'),
+        ('canceled', 'Canceled'),
+        ('completed', 'Completed'),
+    )
 
+    Customer = models.ForeignKey('User', on_delete=models.CASCADE, blank=False, null=False, related_name='customers')
+    Driver = models.ForeignKey('User', on_delete=models.CASCADE, blank=False, null=False, related_name='drivers')
+    Location = models.CharField(max_length=100, blank=False, null=False)
+    Vehicle = models.ForeignKey('Car', on_delete=models.CASCADE, blank=False, null=False)
+    Status = models.CharField(max_length=20, choices=STATUS, blank=False, null=False)
+
+
+class Issue(models.Model):
+    ISSUE_TYPE = (
+        ('missed pickup', 'Missed pickup'),
+        ('poor service', 'Poor service'),
+    )
+
+    STATUS = (
+        ('pending', 'Pending'),
+        ('resolved', 'Resolved'),
+        ('withdrawn', 'Withdrawn'),
+    )
+
+    User = models.ForeignKey('User', on_delete=models.CASCADE, blank=False, null=False, related_name='client')
+    Issue_Type = models.CharField(max_length=30, choices=ISSUE_TYPE, blank=False, null=False)
+    Complaint = models.TextField(blank=False, null=False)
+    Status = models.CharField(max_length=30, choices=STATUS, blank=False, null=False)
