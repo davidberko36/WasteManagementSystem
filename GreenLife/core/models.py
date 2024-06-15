@@ -1,118 +1,119 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.contrib.auth.models import UserManager, AbstractBaseUser, PermissionsMixin
+from django.utils import timezone
 
 
 # Create your models here.
-class UserManager(BaseUserManager):
-    def create_user(self, email, password=None, **extra_fields):
+class CustomUserManager(UserManager):
+    def _create_user(self, email, password, **extra_fields):
         if not email:
-            raise ValueError('Users must have an email address')
+            raise ValueError("You have not provided a valid email address")
+
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
+
         return user
 
-    def create_superuser(self, email, password, **extra_fields):
+    def create_user(self, email=None, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', False)
+        extra_fields.setdefault('is_superuser', False)
+        return self._create_user(email, password, **extra_fields)
+
+    def create_superuser(self, email=None, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('is_active', True)
+        return self._create_user(email, password, **extra_fields)
 
-        if extra_fields.get('is_staff') is not True:
-            raise ValueError('Superuser must have is_staff=True.')
-        if extra_fields.get('is_superuser') is not True:
-            raise ValueError('Superuser must have is_superuser=True.')
-
-        return self.create_user(email, password, **extra_fields)
+    def create_driver(self, email=None, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', False)
+        return self._create_user(email, password, **extra_fields)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    ROLES = (
-        ('admin', 'Admin'),
-        ('customer', 'Customer'),
-        ('driver', 'Driver'),
-    )
-
-    email = models.EmailField(unique=True)
+    email = models.EmailField(unique=True, blank=True, default='')
     last_name = models.CharField(max_length=255, blank=False, null=False)
     other_names = models.CharField(max_length=255, blank=False, null=False)
-    phone_number = models.CharField(max_length=20, blank=False, null=False)
-    role = models.CharField(max_length=20, choices=ROLES, blank=False, null=False)
-    is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
 
-    address = models.CharField(max_length=100, blank=True, null=True)    # For Customers only.
-    driver_license = models.CharField(max_length=100, blank=True, null=True)    # For Drivers only
+    is_active = models.BooleanField(default=True)
+    is_superuser = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
+
+    date_joined = models.DateTimeField(default=timezone.now)
+    last_login = models.DateTimeField(blank=True, null=True)
+
+    objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['last_name', 'other_names', 'role']
+    EMAIL_FIELD = 'email'
+    REQUIRED_FIELDS = []
 
-    objects = UserManager()
-
-    def __str__(self):
-        return self.email
-
-    def save(self, *args, **kwargs):
-        if self.role == 'customer' and not self.address:
-            raise ValueError('Address cannot be empty.')
-        if self.role == 'driver' and not self.driver_license:
-            raise ValueError('License number must be provided.')
+    class Meta:
+        verbose_name = 'User'
+        verbose_name_plural = 'Users'
 
 
-class Car(models.Model):
-    License_Plate = models.CharField(max_length=10, blank=False, null=False)
-    Driver = models.ForeignKey('User', on_delete=models.CASCADE, blank=True, null=True)
-    Capacity = models.DecimalField(max_digits=10, decimal_places=2, blank=False, null=False)
+class Customer(models.Model):
+    user = models.OneToOneField('User', on_delete=models.CASCADE)
+    username = models.CharField(max_length=30, null=False, blank=False)
+    address = models.CharField(max_length=30, null=False, blank=False)
 
-    def __str__(self):
-        return self.License_Plate
+
+class Driver(models.Model):
+    user = models.OneToOneField('User', on_delete=models.CASCADE)
+    username = models.CharField(max_length=30, null=False, blank=False)
+    drivers_license = models.CharField(max_length=30, null=False, blank=False)
+
+
+class Vehicle(models.Model):
+    license_plate = models.CharField(max_length=30, null=False, blank=False)
+    capacity = models.PositiveIntegerField()
+    Driver = models.ForeignKey('Driver', on_delete=models.CASCADE)
 
 
 class Schedule(models.Model):
-    PICKUP_FREQUENCIES = (
+    PICKUP_FREQUENCY = (
         ('daily', 'Daily'),
         ('weekly', 'Weekly'),
         ('biweekly', 'Biweekly'),
-        ('fortnightly', 'Fortnightly'),
+        ('fortnightly,', 'Fortnightly'),
     )
 
-    User = models.ForeignKey('User', on_delete=models.CASCADE, blank=False, null=False)
-    Frequency = models.CharField(max_length=20, choices=PICKUP_FREQUENCIES, blank=False, null=False)
+    customer = models.ForeignKey('Customer', on_delete=models.CASCADE, null=False, blank=False)
+    frequency = models.CharField(max_length=20, choices=PICKUP_FREQUENCY, null=False, blank=False)
     start_date = models.DateField(blank=False, null=False)
     end_date = models.DateField(blank=False, null=False)
-    cost = models.DecimalField(max_digits=10, decimal_places=2, blank=False, null=False)
-
-    def __str__(self):
-        return f"{self.User.last_name}'s schedule"
+    price = models.DecimalField(max_digits=5, decimal_places=2)
 
 
 class Collection(models.Model):
     STATUS = (
         ('pending', 'Pending'),
-        ('canceled', 'Canceled'),
         ('completed', 'Completed'),
+        ('cancelled', 'Cancelled'),
     )
+    customer = models.ForeignKey('Customer', on_delete=models.CASCADE, blank=False, null=False)
+    driver = models.ForeignKey('Driver', on_delete=models.CASCADE, blank=False, null=False)
+    vehicle = models.ForeignKey('Vehicle', on_delete=models.CASCADE, blank=False, null=False)
+    location = models.CharField(max_length=30, blank=False, null=False)
+    status = models.CharField(max_length=20, choices=STATUS, null=False, blank=False, default='Pending')
 
-    Customer = models.ForeignKey('User', on_delete=models.CASCADE, blank=False, null=False, related_name='customers')
-    Driver = models.ForeignKey('User', on_delete=models.CASCADE, blank=False, null=False, related_name='drivers')
-    Location = models.CharField(max_length=100, blank=False, null=False)
-    Vehicle = models.ForeignKey('Car', on_delete=models.CASCADE, blank=False, null=False)
-    Status = models.CharField(max_length=20, choices=STATUS, blank=False, null=False)
 
-
-class Issue(models.Model):
-    ISSUE_TYPE = (
+class Issues(models.Model):
+    ISSUES = (
         ('missed pickup', 'Missed pickup'),
         ('poor service', 'Poor service'),
     )
 
-    STATUS = (
+    ISSUE_STATUS = (
         ('pending', 'Pending'),
         ('resolved', 'Resolved'),
         ('withdrawn', 'Withdrawn'),
     )
 
-    User = models.ForeignKey('User', on_delete=models.CASCADE, blank=False, null=False, related_name='client')
-    Issue_Type = models.CharField(max_length=30, choices=ISSUE_TYPE, blank=False, null=False)
-    Complaint = models.TextField(blank=False, null=False)
-    Status = models.CharField(max_length=30, choices=STATUS, blank=False, null=False)
+    customer = models.ForeignKey('Customer', on_delete=models.CASCADE, null=False, blank=False)
+    issue = models.CharField(max_length=40, choices=ISSUES, null=False, blank=False)
+    details = models.TextField(null=True, blank=True)
+    status = models.CharField(max_length=15, choices=ISSUE_STATUS, null=False, blank=False, default='Pending')
