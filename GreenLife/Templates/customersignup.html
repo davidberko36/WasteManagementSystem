@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Registration</title>
+</head>
+<body>
+    <h2>Register as a Customer</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div>
+            <label for="{{ form.email.id_for_label }}">Email:</label>
+            {{ form.email.errors }}
+            {{ form.email }}
+        </div>
+
+        <div>
+            <label for="{{ form.password.id_for_label }}">Password:</label>
+            {{ form.password.errors }}
+            {{ form.password }}
+        </div>
+
+        <div>
+            <label for="{{ form.last_name.id_for_label }}">Last Name:</label>
+            {{ form.last_name.errors }}
+            {{ form.last_name }}
+        </div>
+
+        <div>
+            <label for="{{ form.other_names.id_for_label }}">Other Names:</label>
+            {{ form.other_names.errors }}
+            {{ form.other_names }}
+        </div>
+
+        <div>
+            <label for="{{ form.username.id_for_label }}">Username:</label>
+            {{ form.username.errors }}
+            {{ form.username }}
+        </div>
+
+        <div>
+            <label for="{{ form.address.id_for_label }}">Address:</label>
+            {{ form.address.errors }}
+            {{ form.address }}
+        </div>
+
+        <button type="submit">Register</button>
+    </form>
+</body>
+</html>

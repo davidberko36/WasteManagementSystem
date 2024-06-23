@@ -64,7 +64,7 @@ class Customer(models.Model):
 class Driver(models.Model):
     user = models.OneToOneField('User', on_delete=models.CASCADE)
     username = models.CharField(max_length=30, null=False, blank=False)
-    drivers_license = models.CharField(max_length=30, null=False, blank=False)
+    driver_license = models.CharField(max_length=30, null=False, blank=False)
 
 
 class Vehicle(models.Model):
