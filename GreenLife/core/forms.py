@@ -36,6 +36,11 @@ class CustomerForm(forms.ModelForm):
         return customer
 
 
+class SignInForm(forms.Form):
+    username = forms.CharField(max_length=150)
+    password = forms.CharField(widget=forms.PasswordInput)
+
+
 class DriverCreationForm(forms.ModelForm):
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
@@ -70,3 +75,32 @@ class DriverCreationForm(forms.ModelForm):
             driver_license=self.cleaned_data['driver_license'],
         )
         return driver
+
+
+class ScheduleCreationForm(forms.ModelForm):
+    PICKUP_FREQUENCY = (
+        ('daily', 'Daily'),
+        ('weekly', 'Weekly'),
+        ('biweekly', 'Biweekly'),
+        ('fortnightly,', 'Fortnightly'),
+    )
+
+    frequency = forms.ChoiceField(choices=PICKUP_FREQUENCY)
+    start_date = forms.DateField(widget=forms.DateInput(format='%d/%m/%Y'))
+    end_date = forms.DateField(widget=forms.DateInput(format='%d/%m/%Y'))
+
+    class Meta:
+        model = Schedule
+        fields = ['frequency', 'start_date', 'end_date']
+
+
+class UserIssuesForm(forms.ModelForm):
+    ISSUE_TYPE = (
+        ('missed pickup', 'Missed pickup'),
+        ('poor service', 'Poor service'),
+    )
+
+    issue_type = forms.ChoiceField(choices=ISSUE_TYPE)
+    details = forms.CharField(widget=forms.Textarea)
+
+

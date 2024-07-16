@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}GreenLife{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="/" class="text-2xl font-bold text-green-600">GreenLife</a>
+            <ul class="flex space-x-4">
+                <li><a href="{% url 'home' %}" class="text-green-500 hover:text-green-700">HOME</a></li>
+                <li><a href="{% url 'about' %}" class="hover:text-green-700">ABOUT</a></li>
+                <li><a href="#" class="hover:text-green-700">SERVICES</a></li>
+                <li><a href="#" class="hover:text-green-700">MISSION</a></li>
+                <li><a href="#" class="hover:text-green-700">PRICING</a></li>
+                <li><a href="{% url 'register_customer' %}" class="hover:text-green-700">SIGN UP</a></li>
+                <li><a href="{% url 'sign_in_customer' %}" class="hover:text-green-700">SIGN IN</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <main class="flex-grow">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2024 GreenLife. All rights reserved.</p>
+        </div>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
