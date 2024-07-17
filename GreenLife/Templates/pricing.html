@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="relative w-full h-80">
+    <img src="{% static 'images/Pricing-hero.jpg' %}" alt="Our Pricing" class="w-full h-full object-cover">
+    <div class="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center">
+        <h1 class="text-5xl font-bold text-white">Pricing Plans</h1>
+    </div>
+</div>
+
+<!-- Value Proposition -->
+<div class="container mx-auto px-4 py-16">
+    <div class="max-w-3xl mx-auto opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+        <h2 class="text-3xl font-bold text-green-700 mb-6 text-center">Unbeatable Value for Your Money</h2>
+        <p class="text-gray-700 mb-4">
+            At GreenLife, we believe in providing top-notch waste management services at prices that won't break the bank. Our pricing plans are designed to offer the best value for money in the Greater Accra Region.
+        </p>
+        <ul class="list-disc list-inside text-gray-700 mb-4">
+            <li>98% customer satisfaction rate - the highest in the industry</li>
+            <li>30% more efficient than traditional waste management services</li>
+            <li>Save up to 25% on your waste management costs compared to our competitors</li>
+            <li>Flexible plans to suit your specific needs and budget</li>
+        </ul>
+        <p class="text-gray-700">
+            Choose GreenLife for affordable, reliable, and eco-friendly waste management solutions that truly deliver value.
+        </p>
+    </div>
+</div>
+
+<!-- Payment Methods -->
+<div class="bg-green-50 py-16">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-green-700 mb-10 text-center opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>Convenient Payment Options</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white p-6 rounded-lg shadow-md opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+                <h3 class="text-xl font-semibold text-green-600 mb-3">Cash on Service</h3>
+                <p class="text-gray-700">Pay in cash when we provide the service. Our staff always carry change for your convenience.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+                <h3 class="text-xl font-semibold text-green-600 mb-3">Mobile Money</h3>
+                <p class="text-gray-700">Use popular mobile money services for quick and easy payments. We accept all major providers.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+                <h3 class="text-xl font-semibold text-green-600 mb-3">Debit/Credit Cards</h3>
+                <p class="text-gray-700">Securely pay with your debit or credit card. We accept all major cards for your convenience.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+ <!-- Pricing Plans -->
+<div class="container mx-auto px-4 py-16">
+    <h2 class="text-3xl font-bold text-green-700 mb-10 text-center opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>Our Subscription Plans</h2>
+
+    <!-- Residential Plans -->
+    <h3 class="text-2xl font-semibold text-green-600 mb-6 opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>Residential Plans</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+        <!-- Daily Plan -->
+        <div class="bg-white p-6 rounded-lg shadow-md opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+            <h4 class="text-xl font-semibold text-green-600 mb-3">Daily Plan</h4>
+            <p class="text-3xl font-bold text-gray-800 mb-4">₵50<span class="text-sm font-normal">/day</span></p>
+            <ul class="text-gray-700 mb-6">
+                <li>Daily waste collection</li>
+                <li>Suitable for large households</li>
+                <li>24/7 customer support</li>
+            </ul>
+            <a href="#" class="block text-center bg-green-600 text-white py-2 rounded-full hover:bg-green-700 transition duration-300">Choose Plan</a>
+        </div>
+
+        <!-- Weekly Plan -->
+        <div class="bg-white p-6 rounded-lg shadow-md opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+            <h4 class="text-xl font-semibold text-green-600 mb-3">Weekly Plan</h4>
+            <p class="text-3xl font-bold text-gray-800 mb-4">₵200<span class="text-sm font-normal">/week</span></p>
+            <ul class="text-gray-700 mb-6">
+                <li>Twice a week collection</li>
+                <li>Ideal for average households</li>
+                <li>Free recycling bin</li>
+            </ul>
+            <a href="#" class="block text-center bg-green-600 text-white py-2 rounded-full hover:bg-green-700 transition duration-300">Choose Plan</a>
+        </div>
+
+        <!-- Bi-weekly Plan -->
+        <div class="bg-white p-6 rounded-lg shadow-md opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+            <h4 class="text-xl font-semibold text-green-600 mb-3">Bi-weekly Plan</h4>
+            <p class="text-3xl font-bold text-gray-800 mb-4">₵350<span class="text-sm font-normal">/2 weeks</span></p>
+            <ul class="text-gray-700 mb-6">
+                <li>Collection every other week</li>
+                <li>Perfect for small families</li>
+                <li>Includes garden waste collection</li>
+            </ul>
+            <a href="#" class="block text-center bg-green-600 text-white py-2 rounded-full hover:bg-green-700 transition duration-300">Choose Plan</a>
+        </div>
+
+        <!-- Fortnightly Plan -->
+        <div class="bg-white p-6 rounded-lg shadow-md opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+            <h4 class="text-xl font-semibold text-green-600 mb-3">Fortnightly Plan</h4>
+            <p class="text-3xl font-bold text-gray-800 mb-4">₵300<span class="text-sm font-normal">/2 weeks</span></p>
+            <ul class="text-gray-700 mb-6">
+                <li>Collection every two weeks</li>
+                <li>Economical option</li>
+                <li>Includes quarterly waste audit</li>
+            </ul>
+            <a href="#" class="block text-center bg-green-600 text-white py-2 rounded-full hover:bg-green-700 transition duration-300">Choose Plan</a>
+        </div>
+    </div>
+
+    <!-- Industrial Plans -->
+    <h3 class="text-2xl font-semibold text-green-600 mb-6 opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>Industrial Plans</h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Small Business Plan -->
+        <div class="bg-white p-6 rounded-lg shadow-md opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+            <h4 class="text-xl font-semibold text-green-600 mb-3">Small Business</h4>
+            <p class="text-3xl font-bold text-gray-800 mb-4">₵1,500<span class="text-sm font-normal">/month</span></p>
+            <ul class="text-gray-700 mb-6">
+                <li>Weekly collection</li>
+                <li>Up to 500kg waste per month</li>
+                <li>Basic waste sorting</li>
+                <li>Monthly waste report</li>
+            </ul>
+            <a href="#" class="block text-center bg-green-600 text-white py-2 rounded-full hover:bg-green-700 transition duration-300">Get Quote</a>
+        </div>
+
+        <!-- Medium Enterprise Plan -->
+        <div class="bg-white p-6 rounded-lg shadow-md opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+            <h4 class="text-xl font-semibold text-green-600 mb-3">Medium Enterprise</h4>
+            <p class="text-3xl font-bold text-gray-800 mb-4">₵5,000<span class="text-sm font-normal">/month</span></p>
+            <ul class="text-gray-700 mb-6">
+                <li>Bi-weekly collection</li>
+                <li>Up to 2000kg waste per month</li>
+                <li>Advanced waste sorting</li>
+                <li>Weekly waste report</li>
+                <li>Recycling program setup</li>
+            </ul>
+            <a href="#" class="block text-center bg-green-600 text-white py-2 rounded-full hover:bg-green-700 transition duration-300">Get Quote</a>
+        </div>
+
+        <!-- Large Corporation Plan -->
+        <div class="bg-white p-6 rounded-lg shadow-md opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+            <h4 class="text-xl font-semibold text-green-600 mb-3">Large Corporation</h4>
+            <p class="text-3xl font-bold text-gray-800 mb-4">Custom Pricing</p>
+            <ul class="text-gray-700 mb-6">
+                <li>Daily or custom collection schedule</li>
+                <li>Unlimited waste management</li>
+                <li>Comprehensive waste sorting</li>
+                <li>Real-time waste analytics</li>
+                <li>On-site waste management consultation</li>
+                <li>Tailored recycling and sustainability programs</li>
+            </ul>
+            <a href="#" class="block text-center bg-green-600 text-white py-2 rounded-full hover:bg-green-700 transition duration-300">Contact Us</a>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* Add any additional styles for the pricing page here */
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const animatedElements = document.querySelectorAll('[data-animate]');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        animatedElements.forEach(element => {
+            observer.observe(element);
+        });
+    });
+</script>
+{% endblock %}

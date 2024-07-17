@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="relative w-full h-80">
+    <img src="{% static 'images/Mission-hero.jpg' %}" alt="Our Mission" class="w-full h-full object-cover">
+    <div class="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center">
+        <h1 class="text-5xl font-bold text-white">Our Mission</h1>
+    </div>
+</div>
+
+<!-- Mission Statement -->
+<div class="container mx-auto px-4 py-16">
+    <div class="max-w-3xl mx-auto opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+        <h2 class="text-3xl font-bold text-green-700 mb-6 text-center">Our Mission Statement</h2>
+        <p class="text-gray-700 mb-4">
+            At GreenLife, our mission is to create a cleaner, healthier environment for the Greater Accra Region through innovative and sustainable waste management practices. We are dedicated to reducing environmental impact, promoting recycling, and educating our community about responsible waste disposal.
+        </p>
+        <p class="text-gray-700">
+            We strive to be the leading force in transforming Accra into a model of urban sustainability, setting new standards for waste management across Ghana and beyond.
+        </p>
+    </div>
+</div>
+
+<!-- Our Goals -->
+<div class="bg-green-50 py-16">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-green-700 mb-10 text-center opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>Our Goals</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white p-6 rounded-lg shadow-md opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+                <h3 class="text-xl font-semibold text-green-600 mb-3">Reduce Waste</h3>
+                <p class="text-gray-700">Implement strategies to minimize waste generation at the source and promote responsible consumption.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+                <h3 class="text-xl font-semibold text-green-600 mb-3">Maximize Recycling</h3>
+                <p class="text-gray-700">Increase recycling rates through advanced sorting technologies and partnerships with local recycling facilities.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+                <h3 class="text-xl font-semibold text-green-600 mb-3">Community Education</h3>
+                <p class="text-gray-700">Empower residents and businesses with knowledge about sustainable waste management practices.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Our Approach -->
+<div class="container mx-auto px-4 py-16">
+    <h2 class="text-3xl font-bold text-green-700 mb-10 text-center opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>Our Approach</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+            <h3 class="text-xl font-semibold text-green-600 mb-3">Innovation</h3>
+            <p class="text-gray-700">We continuously invest in cutting-edge technologies and methodologies to improve our waste management processes and reduce environmental impact.</p>
+        </div>
+        <div class="opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+            <h3 class="text-xl font-semibold text-green-600 mb-3">Collaboration</h3>
+            <p class="text-gray-700">We forge strong partnerships with local governments, businesses, and community organizations to create a unified approach to waste management.</p>
+        </div>
+        <div class="opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+            <h3 class="text-xl font-semibold text-green-600 mb-3">Sustainability</h3>
+            <p class="text-gray-700">Every decision we make is guided by its long-term environmental impact, ensuring that our practices contribute to a sustainable future.</p>
+        </div>
+        <div class="opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+            <h3 class="text-xl font-semibold text-green-600 mb-3">Transparency</h3>
+            <p class="text-gray-700">We maintain open communication with our stakeholders, regularly sharing our progress, challenges, and future plans.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Call to Action -->
+<div class="bg-green-600 py-16 mb-6">
+    <div class="container mx-auto px-4 text-center opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+        <h2 class="text-3xl font-bold text-white mb-6">Join Our Mission</h2>
+        <p class="text-white mb-8 max-w-2xl mx-auto">Be part of the change. Together, we can create a cleaner, greener Accra for generations to come.</p>
+        <a href="#" class="bg-white text-green-600 px-8 py-3 rounded-full font-semibold hover:bg-green-100 transition duration-300">Get Involved Now</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* Add any additional styles for the mission page here */
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const animatedElements = document.querySelectorAll('[data-animate]');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        animatedElements.forEach(element => {
+            observer.observe(element);
+        });
+    });
+</script>
+{% endblock %}

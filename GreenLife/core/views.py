@@ -94,3 +94,13 @@ def about(request):
     return render(request, 'About.html')
 
 
+def mission(request):
+    return render(request, 'mission.html')
+
+
+def services(request):
+    return render(request, 'services.html')
+
+
+def pricing(request):
+    return render(request, 'pricing.html')

@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="relative w-full h-80">
+    <img src="{% static 'images/Services-hero.jpg' %}" alt="Our Services" class="w-full h-full object-cover">
+    <div class="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center">
+        <h1 class="text-5xl font-bold text-white">Our Services</h1>
+    </div>
+</div>
+
+<!-- Introduction -->
+<div class="container mx-auto px-4 py-16">
+    <div class="max-w-3xl mx-auto opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+        <h2 class="text-3xl font-bold text-green-700 mb-6 text-center">Comprehensive Waste Management Solutions</h2>
+        <p class="text-gray-700 mb-4">
+            At GreenLife, we offer a wide range of waste management services tailored to meet the diverse needs of our community. From residential to industrial, hazardous to recyclable, we have the expertise and resources to handle it all.
+        </p>
+        <p class="text-gray-700">
+            Our commitment to innovation and sustainability ensures that we're not just collecting waste – we're transforming it into opportunities for a cleaner, greener future.
+        </p>
+    </div>
+</div>
+
+<!-- Service Categories -->
+<div class="bg-green-50 py-16">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-green-700 mb-10 text-center opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>Our Service Categories</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white p-6 rounded-lg shadow-md opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+                <h3 class="text-xl font-semibold text-green-600 mb-3">Residential Services</h3>
+                <ul class="list-disc list-inside text-gray-700">
+                    <li>Regular household waste collection</li>
+                    <li>Recycling programs</li>
+                    <li>Yard waste removal</li>
+                    <li>Bulky item pickup</li>
+                    <li>E-waste disposal</li>
+                </ul>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+                <h3 class="text-xl font-semibold text-green-600 mb-3">Commercial Services</h3>
+                <ul class="list-disc list-inside text-gray-700">
+                    <li>Business waste management</li>
+                    <li>Office recycling programs</li>
+                    <li>Restaurant and food service waste solutions</li>
+                    <li>Retail waste management</li>
+                    <li>Construction and demolition debris removal</li>
+                </ul>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+                <h3 class="text-xl font-semibold text-green-600 mb-3">Industrial Services</h3>
+                <ul class="list-disc list-inside text-gray-700">
+                    <li>Large-scale waste collection and processing</li>
+                    <li>Hazardous waste management</li>
+                    <li>Industrial recycling programs</li>
+                    <li>Waste-to-energy solutions</li>
+                    <li>Environmental compliance assistance</li>
+                </ul>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+                <h3 class="text-xl font-semibold text-green-600 mb-3">Specialized Services</h3>
+                <ul class="list-disc list-inside text-gray-700">
+                    <li>Medical waste disposal</li>
+                    <li>Electronic waste recycling</li>
+                    <li>Confidential document destruction</li>
+                    <li>Event waste management</li>
+                    <li>Disaster cleanup and restoration</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Detailed Service Descriptions -->
+<div class="container mx-auto px-4 py-16">
+    <h2 class="text-3xl font-bold text-green-700 mb-10 text-center opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>Our Services in Detail</h2>
+
+    <!-- Residential Services -->
+    <div class="mb-16 opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+        <h3 class="text-2xl font-semibold text-green-600 mb-4">Residential Services</h3>
+        <p class="text-gray-700 mb-4">Our residential services are designed to make waste management easy and efficient for households in the Greater Accra Region. We understand that every home is unique, which is why we offer flexible collection schedules and customized recycling programs.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+            <div>
+                <h4 class="text-lg font-semibold text-green-500 mb-2">Regular Waste Collection</h4>
+                <p class="text-gray-600">We offer reliable, scheduled waste collection services to keep your home clean and hygienic. Our team uses modern, eco-friendly collection vehicles to minimize environmental impact.</p>
+            </div>
+            <div>
+                <h4 class="text-lg font-semibold text-green-500 mb-2">Recycling Programs</h4>
+                <p class="text-gray-600">Our comprehensive recycling programs make it easy for you to sort and recycle various materials, including paper, plastics, glass, and metals. We provide educational resources to help you recycle effectively.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Commercial Services -->
+    <div class="mb-16 opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+        <h3 class="text-2xl font-semibold text-green-600 mb-4">Commercial Services</h3>
+        <p class="text-gray-700 mb-4">GreenLife offers tailored waste management solutions for businesses of all sizes. We understand the unique challenges faced by different industries and provide services that ensure compliance with environmental regulations while optimizing your waste management processes.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+            <div>
+                <h4 class="text-lg font-semibold text-green-500 mb-2">Business Waste Management</h4>
+                <p class="text-gray-600">Our commercial waste management services include regular collection, recycling programs, and waste audits to help your business reduce its environmental footprint and potentially save on disposal costs.</p>
+            </div>
+            <div>
+                <h4 class="text-lg font-semibold text-green-500 mb-2">Construction Waste Removal</h4>
+                <p class="text-gray-600">We provide efficient removal and recycling of construction and demolition debris, helping construction projects maintain clean and safe work sites while maximizing material recovery.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Industrial Services -->
+    <div class="mb-16 opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+        <h3 class="text-2xl font-semibold text-green-600 mb-4">Industrial Services</h3>
+        <p class="text-gray-700 mb-4">Our industrial waste management services are designed to handle large-scale and complex waste streams. We employ cutting-edge technologies and best practices to ensure safe, efficient, and environmentally responsible waste management for industrial clients.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+            <div>
+                <h4 class="text-lg font-semibold text-green-500 mb-2">Hazardous Waste Management</h4>
+                <p class="text-gray-600">We specialize in the safe handling, transportation, and disposal of hazardous waste materials, ensuring compliance with all relevant regulations and minimizing environmental risks.</p>
+            </div>
+            <div>
+                <h4 class="text-lg font-semibold text-green-500 mb-2">Waste-to-Energy Solutions</h4>
+                <p class="text-gray-600">Our innovative waste-to-energy programs convert suitable waste materials into usable energy, reducing landfill use and providing a sustainable power source.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Why Choose GreenLife -->
+<div class="bg-green-600 py-16">
+    <div class="container mx-auto px-4 text-white">
+        <h2 class="text-3xl font-bold mb-8 text-center opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>Why Choose GreenLife?</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+                <h3 class="text-xl font-semibold mb-3">Expertise</h3>
+                <p>With years of experience and a team of skilled professionals, we have the knowledge to handle any waste management challenge.</p>
+            </div>
+            <div class="opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+                <h3 class="text-xl font-semibold mb-3">Innovation</h3>
+                <p>We continuously invest in the latest technologies and methodologies to provide the most efficient and environmentally friendly services.</p>
+            </div>
+            <div class="opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+                <h3 class="text-xl font-semibold mb-3">Sustainability</h3>
+                <p>Our commitment to the environment goes beyond waste collection. We strive to maximize recycling and minimize landfill use in everything we do.</p>
+            </div>
+            <div class="opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+                <h3 class="text-xl font-semibold mb-3">Customization</h3>
+                <p>We understand that every client has unique needs. That's why we offer tailored solutions to fit your specific requirements.</p>
+            </div>
+            <div class="opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+                <h3 class="text-xl font-semibold mb-3">Compliance</h3>
+                <p>We ensure that all our services meet or exceed local and national environmental regulations, giving you peace of mind.</p>
+            </div>
+            <div class="opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+                <h3 class="text-xl font-semibold mb-3">Community Focus</h3>
+                <p>As a local company, we're invested in the well-being of our community and strive to make Accra a cleaner, healthier place for all.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Call to Action -->
+<div class="bg-gray-100 py-16">
+    <div class="container mx-auto px-4 text-center opacity-0 transform translate-y-10 transition-all duration-1000" data-animate>
+        <h2 class="text-3xl font-bold text-green-700 mb-6">Ready to Transform Your Waste Management?</h2>
+        <p class="text-gray-700 mb-8 max-w-2xl mx-auto">Join the growing number of residents and businesses who trust GreenLife for their waste management needs. Experience the difference of working with a company that cares about your needs and our environment.</p>
+        <a href="#" class="bg-green-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-green-700 transition duration-300">Get a Free Consultation</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* Add any additional styles for the services page here */
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const animatedElements = document.querySelectorAll('[data-animate]');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        animatedElements.forEach(element => {
+            observer.observe(element);
+        });
+    });
+</script>
+{% endblock %}
