@@ -19,8 +19,13 @@
                 <li><a href="#" class="hover:text-green-700">SERVICES</a></li>
                 <li><a href="#" class="hover:text-green-700">MISSION</a></li>
                 <li><a href="#" class="hover:text-green-700">PRICING</a></li>
-                <li><a href="{% url 'register_customer' %}" class="hover:text-green-700">SIGN UP</a></li>
-                <li><a href="{% url 'sign_in_customer' %}" class="hover:text-green-700">SIGN IN</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="#" class="hover:text-green-700">PLANS</a></li>
+                    <li><a href="{% url 'logout' %}" class="hover:text-green-700">LOG OUT</a></li>
+                {% else %}
+                    <li><a href="{% url 'register_customer' %}" class="hover:text-green-700">SIGN UP</a></li>
+                    <li><a href="{% url 'sign_in_customer' %}" class="hover:text-green-700">SIGN IN</a></li>
+                {% endif %}
             </ul>
         </div>
     </nav>
