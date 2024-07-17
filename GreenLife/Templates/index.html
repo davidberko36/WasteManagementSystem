@@ -1,77 +1,233 @@
+{#{% extends 'base.html' %}#}
+{#{% load static %}#}
+{##}
+{#{% block content %}#}
+{#<!-- Slideshow -->#}
+{#<div class="relative w-full h-96">#}
+{#    <img src="{% static 'images/Slideshowimage1.jpg' %}" alt="Waste Management" class="w-full h-full object-cover">#}
+{#    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">#}
+{#        <div class="text-center">#}
+{#            <h1 class="text-4xl font-bold text-white mb-4">WELCOME TO GREENLIFE</h1>#}
+{#            <a href="{% url 'about' %}" class="bg-green-500 text-white px-6 py-2 rounded-full hover:bg-green-600">MORE ABOUT US</a>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+{##}
+{#<!-- Description -->#}
+{#<div class="container mx-auto px-4 py-12 text-center">#}
+{#    <p class="text-gray-600 max-w-2xl mx-auto">#}
+{#        GreenLife is a waste management provider based in the Accra, proudly serving individuals and businesses in the Greater Accra Region with their domestic and industrial waste management needs, accepting waste of all kind.#}
+{#    </p>#}
+{#</div>#}
+{##}
+{#<!-- Services -->#}
+{#<div class="container mx-auto px-4 py-12">#}
+{#    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">#}
+{#        <!-- Industrial Services -->#}
+{#        <div class="bg-gray-100 p-6 rounded-lg shadow-md">#}
+{#            <h2 class="text-2xl font-bold text-green-600 mb-4">Industrial Services</h2>#}
+{#            <p class="text-gray-700">#}
+{#                We offer comprehensive waste management solutions for industries of all sizes. Our services include:#}
+{#            </p>#}
+{#            <ul class="list-disc list-inside mt-2 text-gray-600">#}
+{#                <li>Large-scale waste collection</li>#}
+{#                <li>Hazardous waste disposal</li>#}
+{#                <li>Recycling programs for businesses</li>#}
+{#                <li>Custom waste management plans</li>#}
+{#            </ul>#}
+{#        </div>#}
+{##}
+{#        <!-- Domestic Services -->#}
+{#        <div class="bg-gray-100 p-6 rounded-lg shadow-md">#}
+{#            <h2 class="text-2xl font-bold text-green-600 mb-4">Domestic Services</h2>#}
+{#            <p class="text-gray-700">#}
+{#                We provide efficient waste management solutions for households. Our services include:#}
+{#            </p>#}
+{#            <ul class="list-disc list-inside mt-2 text-gray-600">#}
+{#                <li>Regular waste collection</li>#}
+{#                <li>Recycling services</li>#}
+{#                <li>Green waste disposal</li>#}
+{#                <li>Bulky item removal</li>#}
+{#            </ul>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+{##}
+{#<!-- Mission -->#}
+{#<div class="bg-green-50 py-12 mb-20">#}
+{#    <div class="container mx-auto px-4">#}
+{#        <h2 class="text-3xl font-bold text-center text-green-700 mb-6">Our Mission</h2>#}
+{#        <p class="text-gray-700 max-w-3xl mx-auto text-center">#}
+{#            At GreenLife, our mission is to create a cleaner, healthier environment for the Greater Accra Region through innovative and sustainable waste management practices. We are committed to reducing environmental impact, promoting recycling, and educating our community about responsible waste disposal.#}
+{#        </p>#}
+{#    </div>#}
+{#</div>#}
+{#{% endblock %}#}
+{##}
+{#{% block extra_head %}#}
+{#<style>#}
+{#    /* Add any additional styles for the home page here */#}
+{#</style>#}
+{#{% endblock %}#}
+{##}
+{#{% block extra_js %}#}
+{#<script>#}
+{#    // You can add JavaScript for a more dynamic slideshow here if needed#}
+{#</script>#}
+{#{% endblock %}#}
+
 {% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
-<!-- Slideshow -->
-<div class="relative w-full h-96">
-    <img src="{% static 'images/Slideshowimage1.jpg' %}" alt="Waste Management" class="w-full h-full object-cover">
-    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+<!-- Hero Slideshow -->
+<div class="relative w-full h-screen">
+    <div class="absolute inset-0 z-0">
+        <img src="{% static 'images/Slideshowimage1.jpg' %}" alt="Waste Management" class="w-full h-full object-cover">
+        <img src="{% static 'images/Slideshowimage2.jpg' %}" alt="Recycling" class="w-full h-full object-cover hidden">
+        <img src="{% static 'images/Slideshowimage3.jpg' %}" alt="Green City" class="w-full h-full object-cover hidden">
+    </div>
+    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
         <div class="text-center">
-            <h1 class="text-4xl font-bold text-white mb-4">WELCOME TO GREENLIFE</h1>
-            <a href="{% url 'about' %}" class="bg-green-500 text-white px-6 py-2 rounded-full hover:bg-green-600">MORE ABOUT US</a>
+            <h1 class="text-5xl font-bold text-white mb-6 animate-fade-in-down">WELCOME TO GREENLIFE</h1>
+            <p class="text-xl text-white mb-8 max-w-2xl mx-auto animate-fade-in-up">Innovative waste management solutions for a cleaner, greener Accra</p>
+            <a href="{% url 'about' %}" class="bg-green-500 text-white px-8 py-3 rounded-full hover:bg-green-600 transition duration-300 ease-in-out transform hover:scale-105 animate-pulse">DISCOVER MORE</a>
         </div>
     </div>
 </div>
 
-<!-- Description -->
-<div class="container mx-auto px-4 py-12 text-center">
-    <p class="text-gray-600 max-w-2xl mx-auto">
-        GreenLife is a waste management provider based in the Accra, proudly serving individuals and businesses in the Greater Accra Region with their domestic and industrial waste management needs, accepting waste of all kind.
-    </p>
-</div>
-
-<!-- Services -->
-<div class="container mx-auto px-4 py-12">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Services Overview -->
+<div class="container mx-auto px-4 py-16">
+    <h2 class="text-4xl font-bold text-center text-green-700 mb-12">Our Services</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <!-- Industrial Services -->
-        <div class="bg-gray-100 p-6 rounded-lg shadow-md">
-            <h2 class="text-2xl font-bold text-green-600 mb-4">Industrial Services</h2>
-            <p class="text-gray-700">
-                We offer comprehensive waste management solutions for industries of all sizes. Our services include:
-            </p>
-            <ul class="list-disc list-inside mt-2 text-gray-600">
-                <li>Large-scale waste collection</li>
-                <li>Hazardous waste disposal</li>
-                <li>Recycling programs for businesses</li>
-                <li>Custom waste management plans</li>
-            </ul>
+        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-2">
+            <img src="{% static 'images/icon-industrial.svg' %}" alt="Industrial Icon" class="w-16 h-16 mx-auto mb-4">
+            <h3 class="text-2xl font-bold text-green-600 mb-4 text-center">Industrial Services</h3>
+            <p class="text-gray-700 text-center">Comprehensive waste management solutions for industries of all sizes.</p>
+            <a href="#" class="block text-center mt-4 text-green-500 hover:text-green-600">Learn More &rarr;</a>
         </div>
 
         <!-- Domestic Services -->
-        <div class="bg-gray-100 p-6 rounded-lg shadow-md">
-            <h2 class="text-2xl font-bold text-green-600 mb-4">Domestic Services</h2>
-            <p class="text-gray-700">
-                We provide efficient waste management solutions for households. Our services include:
-            </p>
-            <ul class="list-disc list-inside mt-2 text-gray-600">
-                <li>Regular waste collection</li>
-                <li>Recycling services</li>
-                <li>Green waste disposal</li>
-                <li>Bulky item removal</li>
-            </ul>
+        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-2">
+            <img src="{% static 'images/icon-domestic.svg' %}" alt="Domestic Icon" class="w-16 h-16 mx-auto mb-4">
+            <h3 class="text-2xl font-bold text-green-600 mb-4 text-center">Domestic Services</h3>
+            <p class="text-gray-700 text-center">Efficient waste management solutions for households in Greater Accra.</p>
+            <a href="#" class="block text-center mt-4 text-green-500 hover:text-green-600">Learn More &rarr;</a>
+        </div>
+
+        <!-- Recycling Programs -->
+        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-2">
+            <img src="{% static 'images/icon-recycling.svg' %}" alt="Recycling Icon" class="w-16 h-16 mx-auto mb-4">
+            <h3 class="text-2xl font-bold text-green-600 mb-4 text-center">Recycling Programs</h3>
+            <p class="text-gray-700 text-center">Innovative recycling solutions for businesses and communities.</p>
+            <a href="#" class="block text-center mt-4 text-green-500 hover:text-green-600">Learn More &rarr;</a>
         </div>
     </div>
 </div>
 
-<!-- Mission -->
-<div class="bg-green-50 py-12 mb-20">
+<!-- About Us Section -->
+<div class="bg-green-50 py-16">
     <div class="container mx-auto px-4">
-        <h2 class="text-3xl font-bold text-center text-green-700 mb-6">Our Mission</h2>
-        <p class="text-gray-700 max-w-3xl mx-auto text-center">
-            At GreenLife, our mission is to create a cleaner, healthier environment for the Greater Accra Region through innovative and sustainable waste management practices. We are committed to reducing environmental impact, promoting recycling, and educating our community about responsible waste disposal.
-        </p>
+        <div class="flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-8 md:mb-0">
+                <img src="{% static 'images/about-us-team.jpg' %}" alt="GreenLife Team" class="rounded-lg shadow-lg">
+            </div>
+            <div class="md:w-1/2 md:pl-12">
+                <h2 class="text-4xl font-bold text-green-700 mb-6">About GreenLife</h2>
+                <p class="text-gray-700 mb-6">
+                    GreenLife is a leading waste management provider based in Accra, proudly serving individuals and businesses in the Greater Accra Region. We're committed to creating a cleaner, healthier environment through innovative and sustainable practices.
+                </p>
+                <a href="{% url 'about' %}" class="bg-green-500 text-white px-6 py-2 rounded-full hover:bg-green-600 transition duration-300 ease-in-out inline-block">Our Story</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Testimonials -->
+<div class="container mx-auto px-4 py-16">
+    <h2 class="text-4xl font-bold text-center text-green-700 mb-12">What Our Clients Say</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Testimonial 1 -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <p class="text-gray-600 italic mb-4">"GreenLife has transformed our company's waste management. Their service is efficient and eco-friendly."</p>
+            <p class="font-bold text-green-600">- Ewurafua Quansah, CEO of Chase Morgan</p>
+        </div>
+        <!-- Testimonial 2 -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <p class="text-gray-600 italic mb-4">"I'm impressed by GreenLife's commitment to sustainability. They've made recycling easy for our community."</p>
+            <p class="font-bold text-green-600">- Caleb Tetteh, Community Leader</p>
+        </div>
+        <!-- Testimonial 3 -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <p class="text-gray-600 italic mb-4">"Reliable, professional, and environmentally conscious. GreenLife is the best choice for waste management."</p>
+            <p class="font-bold text-green-600">- Chelsea Swatson, Homeowner</p>
+        </div>
+    </div>
+</div>
+
+<!-- Call to Action -->
+<div class="bg-green-600 py-16">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-4xl font-bold text-white mb-6">Ready to Go Green?</h2>
+        <p class="text-xl text-white mb-8">Join us in our mission to create a cleaner, more sustainable Accra.</p>
+        <a href="#" class="bg-white text-green-600 px-8 py-3 rounded-full hover:bg-gray-100 transition duration-300 ease-in-out inline-block font-bold">Contact Us Today</a>
     </div>
 </div>
 {% endblock %}
 
 {% block extra_head %}
 <style>
-    /* Add any additional styles for the home page here */
+    @keyframes fade-in-down {
+        0% {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    @keyframes fade-in-up {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    .animate-fade-in-down {
+        animation: fade-in-down 1s ease-out;
+    }
+    .animate-fade-in-up {
+        animation: fade-in-up 1s ease-out;
+    }
 </style>
 {% endblock %}
 
 {% block extra_js %}
 <script>
-    // You can add JavaScript for a more dynamic slideshow here if needed
+    // Hero Slideshow
+    const slides = document.querySelectorAll('.relative > .absolute.inset-0.z-0 > img');
+    let currentSlide = 0;
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            if (i === index) {
+                slide.classList.remove('hidden');
+            } else {
+                slide.classList.add('hidden');
+            }
+        });
+    }
+
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+    }
+
+    setInterval(nextSlide, 5000); // Change slide every 5 seconds
 </script>
 {% endblock %}
