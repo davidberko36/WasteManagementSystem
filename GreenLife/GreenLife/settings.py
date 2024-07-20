@@ -33,6 +33,7 @@ AUTH_USER_MODEL = 'core.User'
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    
 ]
 
 
@@ -147,6 +149,10 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
@@ -156,3 +162,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+
+JAZZMIN_SETTINGS = {
+    "site_title" : "GreenLife",
+    "site_header": "GreenLife Admin",
+    "site_brand" : "One Street At a Time",
+    "site_logo" : "images/GreenLife-logo.jpg",
+    "copyright" : "2024 | GreenLife Waste Management Providers",
+
+}

@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from .models import Schedule, Customer
+from .models import Schedule, Customer, User
 from .tasks import check_schedule
 from decimal import Decimal
 
@@ -62,30 +62,6 @@ def logout_view(request):
     logout(request)
     return redirect('home')
 
-# def create_schedule(request):
-#     pricing = {
-#         'daily': Decimal('50.00'),
-#         'weekly': Decimal('200.00'),
-#         'biweekly': Decimal('350.00'),
-#         'fortnightly': Decimal('300.00'),
-#     }
-#     active_schedules = Schedule.objects.filter(customer=request.user.customer, is_active=True)
-    
-
-#     if request.method == 'POST':
-#         form = ScheduleCreationForm(request.POST)
-#         if form.is_valid():
-#             schedule = form.save(commit=False)
-#             schedule.user = request.user.customer
-#             schedule.price = pricing[schedule.frequency]
-#             schedule.save()
-#             check_schedule.apply_async(args=[schedule.id], eta=schedule.start_date)
-#             return redirect('schedule_success')
-#         else:
-#             form = ScheduleCreationForm()
-#         return render(request, 'plans.html', {'form': form})
-#     form = ScheduleCreationForm()
-#     return render(request, 'plans.html', {'form': form, 'active_schedules': active_schedules})
 
 
 def create_schedule(request):
@@ -95,22 +71,37 @@ def create_schedule(request):
         'biweekly': Decimal('350.00'),
         'fortnightly': Decimal('300.00'),
     }
-    active_schedules = Schedule.objects.filter(customer=request.user.customer, is_active=True)
+
+    # Check if user has a related customer
+    try:
+        customer = request.user.customer
+    except User.customer.RelatedObjectDoesNotExist:
+        # Handle the case where user has no customer
+        messages.error(request, "You need to complete your profile to create a schedule.")
+        return redirect('profile')
+
+    active_schedules = Schedule.objects.filter(customer=customer, is_active=True)
 
     if request.method == 'POST':
         form = ScheduleCreationForm(request.POST)
-        if form.is_valid():  
+        if form.is_valid():
             schedule = form.save(commit=False)
-            schedule.user = request.user.customer
+            schedule.customer = customer
             schedule.price = pricing[schedule.frequency]
             schedule.save()
             check_schedule.apply_async(args=[schedule.id], eta=schedule.start_date)
             return redirect('schedule_success')
         else:
-            return render(request, 'plans.html', {'form': form, 'active_schedules': active_schedules, 'pricing': pricing})
+            print("Form is invalid")
+            print(form.errors)
 
     form = ScheduleCreationForm()
-    return render(request, 'plans.html', {'form': form, 'active_schedules': active_schedules, 'pricing': pricing})
+    return render(request, 'plans.html', {
+        'form': form, 
+        'active_schedules': active_schedules, 
+        'pricing': pricing
+    })
+
 
 
 @login_required

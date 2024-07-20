@@ -66,9 +66,6 @@
             <p>You have no active schedules.</p>
         {% endfor %}
     </div>
-
-    <!-- Hidden element to store pricing data -->
-    <div id="pricing-data" data-pricing="{{ pricing|safe }}"></div>
 </div>
 {% endblock %}
 
@@ -80,71 +77,28 @@
         const closeForm = document.getElementById('close-form');
         const frequencySelect = document.getElementById('{{ form.frequency.id_for_label }}');
         const priceDisplay = document.getElementById('price-amount');
-        const pricingElement = document.getElementById('pricing-data');
-        const pricing = JSON.parse(pricingElement.getAttribute('data-pricing').replace(/&quot;/g, '"'));
-        const scheduleCreationForm = document.getElementById('schedule-creation-form');
-        const cancelBtns = document.querySelectorAll('.cancel-schedule-btn');
+        const pricing = {
+            'daily': 50.00,
+            'weekly': 200.00,
+            'biweekly': 350.00,
+            'fortnightly': 300.00
+        };
 
         createBtn.addEventListener('click', () => {
-            console.log('Create button clicked');  // Debugging line
             scheduleForm.classList.remove('hidden');
         });
 
         closeForm.addEventListener('click', () => {
-            console.log('Close button clicked');  // Debugging line
             scheduleForm.classList.add('hidden');
         });
 
         if (frequencySelect) {
             frequencySelect.addEventListener('change', function() {
-                console.log('Frequency select changed');  // Debugging line
                 const selectedFrequency = this.value;
                 const price = pricing[selectedFrequency];
                 priceDisplay.textContent = price ? price.toFixed(2) : '0.00';
             });
         }
-
-        scheduleCreationForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            console.log('Form submitted');  // Debugging line
-            fetch('{% url "create_schedule" %}', {
-                method: 'POST',
-                body: new FormData(this),
-                headers: {
-                    'X-CSRFToken': '{{ csrf_token }}'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    location.reload();
-                } else {
-                    // Handle errors
-                    console.error(data.errors);
-                }
-            });
-        });
-
-        cancelBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                const scheduleId = this.dataset.scheduleId;
-                if (confirm('Are you sure you want to cancel this schedule?')) {
-                    console.log('Cancel button clicked for schedule ID:', scheduleId);  // Debugging line
-                    fetch(`/cancel-schedule/${scheduleId}/`, {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRFToken': '{{ csrf_token }}'
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.status === 'success') {
-                            location.reload();
-                        }
-                    });
-                }
-            });
-        });
 
         // Initialize price display
         if (frequencySelect) {
