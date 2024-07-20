@@ -8,6 +8,8 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from .models import Schedule, Customer
+from .tasks import check_schedule
+from decimal import Decimal
 
 
 # Create your views here.
@@ -60,17 +62,55 @@ def logout_view(request):
     logout(request)
     return redirect('home')
 
+# def create_schedule(request):
+#     pricing = {
+#         'daily': Decimal('50.00'),
+#         'weekly': Decimal('200.00'),
+#         'biweekly': Decimal('350.00'),
+#         'fortnightly': Decimal('300.00'),
+#     }
+#     active_schedules = Schedule.objects.filter(customer=request.user.customer, is_active=True)
+    
+
+#     if request.method == 'POST':
+#         form = ScheduleCreationForm(request.POST)
+#         if form.is_valid():
+#             schedule = form.save(commit=False)
+#             schedule.user = request.user.customer
+#             schedule.price = pricing[schedule.frequency]
+#             schedule.save()
+#             check_schedule.apply_async(args=[schedule.id], eta=schedule.start_date)
+#             return redirect('schedule_success')
+#         else:
+#             form = ScheduleCreationForm()
+#         return render(request, 'plans.html', {'form': form})
+#     form = ScheduleCreationForm()
+#     return render(request, 'plans.html', {'form': form, 'active_schedules': active_schedules})
+
+
 def create_schedule(request):
+    pricing = {
+        'daily': Decimal('50.00'),
+        'weekly': Decimal('200.00'),
+        'biweekly': Decimal('350.00'),
+        'fortnightly': Decimal('300.00'),
+    }
+    active_schedules = Schedule.objects.filter(customer=request.user.customer, is_active=True)
+
     if request.method == 'POST':
         form = ScheduleCreationForm(request.POST)
-        if form.is_valid:
+        if form.is_valid():  
             schedule = form.save(commit=False)
             schedule.user = request.user.customer
+            schedule.price = pricing[schedule.frequency]
             schedule.save()
+            check_schedule.apply_async(args=[schedule.id], eta=schedule.start_date)
             return redirect('schedule_success')
         else:
-            form = ScheduleCreationForm()
-        return render(request, 'plan.html', {'form': form})
+            return render(request, 'plans.html', {'form': form, 'active_schedules': active_schedules, 'pricing': pricing})
+
+    form = ScheduleCreationForm()
+    return render(request, 'plans.html', {'form': form, 'active_schedules': active_schedules, 'pricing': pricing})
 
 
 @login_required
@@ -78,6 +118,7 @@ def cancel_schedule(request):
     schedule = Schedule.objects.filter(user=request.user.customer)
     schedule.is_active=False
     schedule.save()
+    messages.success(request, 'Your shcedule has been cancelled successfully.')
     return redirect('schedule_cancelled')
 
 

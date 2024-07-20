@@ -34,7 +34,7 @@
                 <li><a href="{% url 'mission' %}" class="{% if request.resolver_match.url_name == 'mission' %}text-green-500{% endif %} hover:text-green-700">MISSION</a></li>
                 <li><a href="{% url 'pricing' %}" class="{% if request.resolver_match.url_name == 'pricing' %}text-green-500{% endif %} hover:text-green-700">PRICING</a></li>
                 {% if user.is_authenticated %}
-                    <li><a href="#" class="hover:text-green-700">PLANS</a></li>
+                    <li><a href="{% url 'create_schedule' %}" class="hover:text-green-700">PLANS</a></li>
                     <li><a href="{% url 'settings' %}" class="{% if request.resolver_match.url_name == 'settings' %}text-green-500{% endif %} hover:text-green-700">SETTINGS</a></li>
                     <li><a href="{% url 'logout' %}" class="hover:text-green-700">LOG OUT</a></li>
                 {% else %}
@@ -53,7 +53,7 @@
                 <li><a href="{% url 'mission' %}" class="block px-3 py-2 {% if request.resolver_match.url_name == 'mission' %}text-green-500{% endif %} hover:text-green-700">MISSION</a></li>
                 <li><a href="{% url 'pricing' %}" class="block px-3 py-2 {% if request.resolver_match.url_name == 'pricing' %}text-green-500{% endif %} hover:text-green-700">PRICING</a></li>
                 {% if user.is_authenticated %}
-                    <li><a href="#" class="block px-3 py-2 hover:text-green-700">PLANS</a></li>
+                    <li><a href="{% url 'create_schedule' %}" class="block px-3 py-2 hover:text-green-700">PLANS</a></li>
                     <li><a href="{% url 'settings' %}" class="block px-3 py-2 {% if request.resolver_match.url_name == 'settings' %}text-green-500{% endif %} hover:text-green-700">SETTINGS</a></li>
                     <li><a href="{% url 'logout' %}" class="block px-3 py-2 hover:text-green-700">LOG OUT</a></li>
                 {% else %}
