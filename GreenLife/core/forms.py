@@ -86,13 +86,23 @@ class ScheduleCreationForm(forms.ModelForm):
         ('fortnightly,', 'Fortnightly'),
     )
 
+    pickup_days = (
+        ('Monday', 'Monday'),
+        ('Tuesday', 'Tuesday'),
+        ('Wednesday', 'Wednesday'),
+        ('Thursday', 'Thursday'),
+        ('Friday', 'Friday'),
+        ('Saturday', 'Saturday'),
+        ('Sunday', 'Sunday'),
+    )
+
     frequency = forms.ChoiceField(choices=PICKUP_FREQUENCY)
     start_date = forms.DateField(widget=forms.DateInput(format='%d/%m/%Y'))
-    end_date = forms.DateField(widget=forms.DateInput(format='%d/%m/%Y'))
+    pickup_days = forms.MultipleChoiceField(choices=pickup_days, widget=forms.CheckboxSelectMultiple, required=True)
 
     class Meta:
         model = Schedule
-        fields = ['frequency', 'start_date', 'end_date']
+        fields = ['frequency', 'start_date', 'pickup_days']
 
 
 class UserIssuesForm(forms.ModelForm):
@@ -105,3 +115,27 @@ class UserIssuesForm(forms.ModelForm):
     details = forms.CharField(widget=forms.Textarea)
 
 
+class CustomerSettingsForm(forms.ModelForm):
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'w-full px-3 py-2 border rounded-md'}))
+
+    class Meta:
+        model = Customer
+        fields = ['username', 'email', 'phone_number', 'address']
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'w-full px-3 py-2 border rounded-md'}),
+            'phone_number': forms.TextInput(attrs={'class': 'w-full px-3 py-2 border rounded-md'}),
+            'address': forms.TextInput(attrs={'class': 'w-full px-3 py-2 border rounded-md'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.user:
+            self.fields['email'].initial = self.instance.user.email
+
+    def save(self, commit=True):
+        customer = super().save(commit=False)
+        customer.user.email = self.cleaned_data['email']
+        if commit:
+            customer.user.save()
+            customer.save()
+        return customer

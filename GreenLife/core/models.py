@@ -57,18 +57,24 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Customer(models.Model):
     user = models.OneToOneField('User', on_delete=models.CASCADE)
+    phone_number = models.CharField(max_length=30, blank=True, null=True)
     username = models.CharField(max_length=30, null=False, blank=False)
     address = models.CharField(max_length=30, null=False, blank=False)
+
+    def __str__(self):
+        return self.user.email
 
 
 class Driver(models.Model):
     user = models.OneToOneField('User', on_delete=models.CASCADE)
+    phone_number = models.CharField(max_length=30, null=True, blank=True)
     username = models.CharField(max_length=30, null=False, blank=False)
     driver_license = models.CharField(max_length=30, null=False, blank=False)
 
 
 class Vehicle(models.Model):
     license_plate = models.CharField(max_length=30, null=False, blank=False)
+    phone_number = models.CharField(max_length=30, null=True, blank=True)
     capacity = models.PositiveIntegerField()
     Driver = models.ForeignKey('Driver', on_delete=models.CASCADE)
 
@@ -84,8 +90,12 @@ class Schedule(models.Model):
     customer = models.ForeignKey('Customer', on_delete=models.CASCADE, null=False, blank=False)
     frequency = models.CharField(max_length=20, choices=PICKUP_FREQUENCY, null=False, blank=False)
     start_date = models.DateField(blank=False, null=False)
-    end_date = models.DateField(blank=False, null=False)
+    pickup_days = models.JSONField(null=False, blank=False, default=dict)
     price = models.DecimalField(max_digits=5, decimal_places=2)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.customer} - {self.frequency} starting {self.start_date}"
 
 
 class Collection(models.Model):
