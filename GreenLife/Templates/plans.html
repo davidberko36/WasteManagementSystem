@@ -43,7 +43,7 @@
                     <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300">
                         Save Schedule
                     </button>
-                    <button type="button" id="close-form" class="text-green-500 hover:text-green-600 transition duration-300">
+                    <button  type="submit" id="close-form" class="text-green-500 hover:text-green-600 transition duration-300">
                         Cancel
                     </button>
                 </div>
@@ -58,9 +58,12 @@
                 <p><strong>Frequency:</strong> {{ schedule.get_frequency_display }}</p>
                 <p><strong>Start Date:</strong> {{ schedule.start_date }}</p>
                 <p><strong>Price:</strong> ₵{{ schedule.price }}</p>
-                <button class="cancel-schedule-btn mt-4 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300" data-schedule-id="{{ schedule.id }}">
+                <form action="{% url 'cancel_schedule' schedule.id %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="cancel-schedule-btn mt-4 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300">
                     Cancel Schedule
-                </button>
+                    </button>
+                    </form>
             </div>
         {% empty %}
             <p>You have no active schedules.</p>

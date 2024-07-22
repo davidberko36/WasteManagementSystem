@@ -12,6 +12,7 @@ urlpatterns = [
     path('pricing/', pricing, name='pricing'),
     path('settings/', settings, name='settings'),
     path('create_schedule/', create_schedule, name='create_schedule'),
+    path('cancel-schedule/<int:schedule_id>/', cancel_schedule, name='cancel_schedule'),
     path('sign_in/customer/', SignInView.as_view(), name='sign_in_customer'),
     path('logout/', logout_view, name='logout'),
 ]

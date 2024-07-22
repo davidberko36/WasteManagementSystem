@@ -1,6 +1,7 @@
 from django import forms
 from .models import User, Customer, Driver, Schedule, Issues
 from django.contrib.auth.forms import AuthenticationForm
+import json
 
 
 class CustomerForm(forms.ModelForm):
@@ -103,6 +104,9 @@ class ScheduleCreationForm(forms.ModelForm):
     class Meta:
         model = Schedule
         fields = ['frequency', 'start_date', 'pickup_days']
+
+    def clean_pickup_days(self):
+        return json.dumps(self.cleaned_data['pickup_days'])
 
 
 class UserIssuesForm(forms.ModelForm):

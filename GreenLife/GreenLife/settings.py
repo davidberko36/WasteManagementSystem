@@ -164,10 +164,10 @@ CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 
 JAZZMIN_SETTINGS = {
-    "site_title" : "GreenLife",
+    "site_title": "GreenLife",
     "site_header": "GreenLife Admin",
-    "site_brand" : "One Street At a Time",
-    "site_logo" : "images/GreenLife-logo.jpg",
-    "copyright" : "2024 | GreenLife Waste Management Providers",
+    "site_brand": "One Street At a Time",
+    "site_logo": "images/GreenLife-logo.jpg",
+    "copyright": "2024 | GreenLife Waste Management Providers",
 
 }

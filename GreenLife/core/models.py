@@ -84,7 +84,7 @@ class Schedule(models.Model):
         ('daily', 'Daily'),
         ('weekly', 'Weekly'),
         ('biweekly', 'Biweekly'),
-        ('fortnightly,', 'Fortnightly'),
+        ('fortnightly,', 'Fortnightly')
     )
 
     customer = models.ForeignKey('Customer', on_delete=models.CASCADE, null=False, blank=False)
