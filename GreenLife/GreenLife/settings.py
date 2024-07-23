@@ -49,7 +49,7 @@ INSTALLED_APPS = [
 ]
 
 
-# # Allauth configuration
+# Allauth configuration
 # SITE_ID = 1
 #
 # ACCOUNT_EMAIL_REQUIRED = True
@@ -60,11 +60,11 @@ INSTALLED_APPS = [
 # ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True
 #
 #
-# # Email settings
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
+# Email settings
+EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 
 MIDDLEWARE = [
