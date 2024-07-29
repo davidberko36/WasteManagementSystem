@@ -70,7 +70,7 @@ CRONJOBS = [
 # Email settings
 EMAIL_BACKEND = 'django_mailjet.backends.MailjetBackend'
 MAILJET_API_KEY = 'efb5c2bd4f48dfaa294745435ff13055'
-MAILJET_API_SECRET = 'a6002cb17f9bc7c5b5974a98f62af007'
+MAILJET_API_SECRET = os.environ.get('MAILJET_API_SECRET')
 DEFAULT_FROM_EMAIL = 'GreenLifeGH@yahoo.com'
 
 
