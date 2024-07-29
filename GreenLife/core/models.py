@@ -74,7 +74,6 @@ class Driver(models.Model):
 
 class Vehicle(models.Model):
     license_plate = models.CharField(max_length=30, null=False, blank=False)
-    phone_number = models.CharField(max_length=30, null=True, blank=True)
     capacity = models.PositiveIntegerField()
     Driver = models.ForeignKey('Driver', on_delete=models.CASCADE)
 
@@ -96,6 +95,25 @@ class Schedule(models.Model):
 
     def __str__(self):
         return f"{self.customer} - {self.frequency} starting {self.start_date}"
+
+
+class Payment(models.Model):
+
+    PAYMENT_STATUS = (
+        ('pending', 'Pending'),
+        ('paid', 'Paid'),
+        ('failed', 'Failed'),
+    )
+
+    schedule = models.ForeignKey('Schedule', on_delete=models.CASCADE, related_name='payments')
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    reference = models.CharField(max_length=200, unique=True)
+    status = models.CharField(max_length=20, choices=PAYMENT_STATUS, default='pending')
+    paid_at = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"{self.schedule} - {self.amount} "
 
 
 class Collection(models.Model):

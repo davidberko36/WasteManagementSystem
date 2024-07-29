@@ -42,12 +42,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     'widget_tweaks',
+    'django_paystack',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'django_crontab',
     
 ]
 
+# Crontab job for auto creating collections.
+
+CRONJOBS = [
+    ('0 0 * * *', 'django.core.management.call_command', ['check_date_and_run'])
+]
 
 # Allauth configuration
 # SITE_ID = 1
@@ -61,10 +68,10 @@ INSTALLED_APPS = [
 #
 #
 # Email settings
-EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django_mailjet.backends.MailjetBackend'
+MAILJET_API_KEY = 'efb5c2bd4f48dfaa294745435ff13055'
+MAILJET_API_SECRET = 'a6002cb17f9bc7c5b5974a98f62af007'
+DEFAULT_FROM_EMAIL = 'GreenLifeGH@yahoo.com'
 
 
 MIDDLEWARE = [
@@ -171,3 +178,20 @@ JAZZMIN_SETTINGS = {
     "copyright": "2024 | GreenLife Waste Management Providers",
 
 }
+
+# PAYSTACK_SETTINGS
+PAYSTACK_PUBLIC_KEY = os.environ.get('PAYSTACK_PUBLIC_KEY')
+PAYSTACK_SECRET_KEY = os.environ.get('PAYSTACK_SECRET_KEY')
+PAYSTACK_CALLBACK_URL = 'payment_callback'
+
+
+PAYSTACK_SETTINGS = {
+    'BUTTON_ID': 'pay-button',
+    'CURRENCY': 'GHS',  # Change this to your preferred currency code (e.g., 'NGN' for Nigerian Naira)
+    'PAYMENT_URL': 'https://paystack.com/pay/',
+    'SUCCESS_URL': 'payment_success',
+    'FAILURE_URL': 'payment_failure',
+    'BUTTON_CLASS': 'btn btn-primary'
+}
+
+PAYSTACK_TEST_MODE = True

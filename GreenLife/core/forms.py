@@ -2,6 +2,7 @@ from django import forms
 from .models import User, Customer, Driver, Schedule, Issues
 from django.contrib.auth.forms import AuthenticationForm
 import json
+from .email import send_welcome_email
 
 
 class CustomerForm(forms.ModelForm):
@@ -35,6 +36,7 @@ class CustomerForm(forms.ModelForm):
             username=self.cleaned_data['username'],
             address=self.cleaned_data['address'],
         )
+        send_welcome_email(user.email)
         return customer
 
 

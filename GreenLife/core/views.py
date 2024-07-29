@@ -7,9 +7,12 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from .models import Schedule, Customer, User
+from .models import Schedule, Customer, User, Payment
 from .tasks import check_schedule
 from decimal import Decimal
+from django.conf import settings
+# from django_paystack.models import Transaction
+# from django_paystack.utils import generate_reference
 
 
 # Create your views here.
@@ -63,46 +66,6 @@ def logout_view(request):
     return redirect('home')
 
 
-
-# def create_schedule(request):
-#     pricing = {
-#         'daily': Decimal('50.00'),
-#         'weekly': Decimal('200.00'),
-#         'biweekly': Decimal('350.00'),
-#         'fortnightly': Decimal('300.00'),
-#     }
-#
-#     # Check if user has a related customer
-#     try:
-#         customer = request.user.customer
-#     except User.customer.RelatedObjectDoesNotExist:
-#         # Handle the case where user has no customer
-#         messages.error(request, "You need to complete your profile to create a schedule.")
-#         return redirect('profile')
-#
-#     active_schedules = Schedule.objects.filter(customer=customer, is_active=True)
-#
-#     if request.method == 'POST':
-#         form = ScheduleCreationForm(request.POST)
-#         if form.is_valid():
-#             schedule = form.save(commit=False)
-#             schedule.customer = customer
-#             schedule.price = pricing[schedule.frequency]
-#             schedule.save()
-#             check_schedule.apply_async(args=[schedule.id], eta=schedule.start_date)
-#             return redirect('plans')
-#         else:
-#             print("Form is invalid")
-#             print(form.errors)
-#
-#     form = ScheduleCreationForm()
-#     return render(request, 'plans.html', {
-#         'form': form,
-#         'active_schedules': active_schedules,
-#         'pricing': pricing
-#     })
-
-
 def create_schedule(request):
     pricing = {
         'daily': Decimal('50.00'),
@@ -128,7 +91,7 @@ def create_schedule(request):
             schedule.save()
 
             # Schedule the task to run daily
-            check_schedule.apply_async(args=[schedule.id], eta=schedule.start_date)
+            # check_schedule.apply_async(args=[schedule.id], eta=schedule.start_date)
 
             messages.success(request, "Schedule created successfully!")
             return redirect('create_schedule')  # Redirect to the plans page or wherever you want
@@ -144,17 +107,6 @@ def create_schedule(request):
     })
 
 
-
-
-# @login_required
-# def cancel_schedule(request):
-#     schedule = Schedule.objects.filter(user=request.user.customer)
-#     schedule.is_active=False
-#     schedule.save()
-#     messages.success(request, 'Your schedule has been cancelled successfully.')
-#     return redirect('schedule_cancelled')
-
-
 @login_required
 def cancel_schedule(request, schedule_id):
     schedule = get_object_or_404(Schedule, id=schedule_id, customer=request.user.customer)
@@ -162,6 +114,7 @@ def cancel_schedule(request, schedule_id):
     schedule.save()
     messages.success(request, 'Your schedule has been cancelled successfully.')
     return redirect('create_schedule')
+
 
 
 @login_required
