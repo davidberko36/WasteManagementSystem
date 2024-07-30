@@ -1,4 +1,5 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from .models import User, Customer, Driver, Schedule, Issues
 from django.contrib.auth.forms import AuthenticationForm
 import json
@@ -23,6 +24,12 @@ class CustomerForm(forms.ModelForm):
         self.fields['last_name'].required = True
         self.fields['other_names'].required = True
         self.fields['username'].required = True
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise ValidationError("This email address is already in use.")
+        return email
 
     def save(self, commit=True):
         user = User.objects.create_user(

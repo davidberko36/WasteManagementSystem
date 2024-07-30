@@ -2,16 +2,17 @@ from django.shortcuts import render, redirect, get_object_or_404
 from pyexpat.errors import messages
 from .forms import CustomerForm, DriverCreationForm, SignInForm, ScheduleCreationForm, CustomerSettingsForm
 from django.views import View
+from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from .models import Schedule, Customer, User, Payment
+from .models import Schedule, Customer, User, Payment, Issues
 from .tasks import check_schedule
 from decimal import Decimal
 from django.conf import settings
-from .email import send_welcome_email, send_subscription_email, send_cancellation_email
+from .email import send_welcome_email, send_subscription_email, send_cancellation_email, send_complaint_email
 # from django_paystack.models import Transaction
 # from django_paystack.utils import generate_reference
 
@@ -27,9 +28,12 @@ def register_customer(request):
     if request.method == 'POST':
         form = CustomerForm(request.POST)
         if form.is_valid():
-            customer=form.save()
-            send_welcome_email(customer.user.email)
-            return redirect('home')
+            try:
+                customer = form.save()
+                send_welcome_email(customer.user.email)
+                return redirect('home')
+            except IntegrityError:
+                form.add_error('email', 'This email address is already in use.')
     else:
         form = CustomerForm()
     return render(request, 'customersignup.html', {'form': form})
@@ -93,11 +97,8 @@ def create_schedule(request):
             schedule.save()
             send_subscription_email(schedule.customer.user.email)
 
-            # Schedule the task to run daily
-            # check_schedule.apply_async(args=[schedule.id], eta=schedule.start_date)
-
             messages.success(request, "Schedule created successfully!")
-            return redirect('create_schedule')  # Redirect to the plans page or wherever you want
+            return redirect('create_schedule')
         else:
             messages.error(request, "There was an error in your form. Please check and try again.")
     else:
@@ -146,6 +147,30 @@ def register_driver(request):
     else:
         form = DriverCreationForm()
     return render(request, 'drivercreation.html', {'form': form})
+
+
+
+@login_required
+def issues_dashboard(request):
+    issues = Issues.objects.filter(customer=request.user.customer)
+    return render(request, 'issues.html', {'issues': issues})
+
+@login_required
+def report_issue(request):
+    if request.method == 'POST':
+        issue = request.POST.get('issue')
+        details = request.POST.get('details')
+        Issues.objects.create(
+            customer=request.user.customer,
+            issue=issue,
+            details=details
+        )
+        customer = request.user.customer
+        send_complaint_email(customer.user.email)
+        return redirect('issues_dashboard')
+    return redirect('issues_dashboard')
+
+
 
 def about(request):
     return render(request, 'About.html')

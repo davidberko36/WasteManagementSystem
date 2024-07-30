@@ -28,3 +28,14 @@ def send_cancellation_email(user_email):
     from_email = settings.DEFAULT_FROM_EMAIL
     to_email = [user_email]
     send_mail(subject, message, from_email, to_email)
+
+
+def send_complaint_email(user_email):
+    subject = 'Your complaint has been received.'
+    message = ("Cherished customer, \n"
+               "Your complaint has been received and we are working hard to resolve it. \n"
+               "A representative has been assigned your case and will reach out to you soon.\n"
+               "Thank you for reaching out.")
+    from_email = settings.DEFAULT_FROM_EMAIL
+    to_email = [user_email]
+    send_mail(subject, message, from_email, to_email)

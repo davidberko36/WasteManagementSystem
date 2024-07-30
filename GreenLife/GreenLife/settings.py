@@ -9,21 +9,31 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+import environ
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 import os.path
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+env = environ.Env(
+    DEBUG=(bool, False)
+)
+
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-otnfms!ibstdynl+3@7e%a0%v&=!b)41g2#365p8^4+ic9$+d+'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -64,14 +74,11 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'daberko364@gmail.com'
-EMAIL_HOST_PASSWORD = 'hmqg awsi ennj hxzf'
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 
 #
 # Email settings
-# EMAIL_BACKEND = 'django_mailjet.backends.MailjetBackend'
-# MAILJET_API_KEY = 'efb5c2bd4f48dfaa294745435ff13055'
-# MAILJET_API_SECRET = os.environ.get('MAILJET_API_SECRET')
-# DEFAULT_FROM_EMAIL = 'GreenLifeGH@yahoo.com'
+
 
 
 MIDDLEWARE = [

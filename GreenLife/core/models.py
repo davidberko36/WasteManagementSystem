@@ -145,3 +145,6 @@ class Issues(models.Model):
     issue = models.CharField(max_length=40, choices=ISSUES, null=False, blank=False)
     details = models.TextField(null=True, blank=True)
     status = models.CharField(max_length=15, choices=ISSUE_STATUS, null=False, blank=False, default='Pending')
+
+    def __str__(self):
+        return f"{self.customer.username}'s problem"
