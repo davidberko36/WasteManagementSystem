@@ -9,7 +9,7 @@ The Waste Management System is a web application designed to facilitate efficien
 
 	•	User Registration and Authentication: Secure user registration and login system.
 	•	Scheduling: Clients can choose the start date for waste collection and set up recurring schedules.
-	•	Payment Integration: Integrated with Paystack for handling payments.
+	•	Payment Integration: Integrated with Paystack for handling payments. (Disabled for security reasons)
 	•	Email Notifications: Automated email notifications for scheduling and payment confirmations.
 	•	Admin Dashboard: Admin interface for managing collections, users, and payments.
 
