@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Plans - GreenLife{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-green-600 mb-8">Manage Your Schedules</h1>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4" role="alert">
+                <p>{{ message }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+    
+    <button id="create-schedule-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300 mb-8">
+        Create a Schedule
+    </button>
+    
+    <div id="schedule-form" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4">Create New Schedule</h3>
+            <form id="schedule-creation-form" method="post" class="space-y-4">
+                {% csrf_token %}
+                <div>
+                    <label for="{{ form.frequency.id_for_label }}" class="block text-sm font-medium text-gray-700">Pickup Frequency</label>
+                    {{ form.frequency }}
+                </div>
+                <div>
+                    <label for="{{ form.start_date.id_for_label }}" class="block text-sm font-medium text-gray-700">Start Date</label>
+                    {{ form.start_date }}
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Pickup Days</label>
+                    {{ form.pickup_days }}
+                </div>
+                <div id="price-display" class="text-lg font-semibold text-green-600">
+                    Price: ₵<span id="price-amount">0.00</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <button type="submit" id="create-and-pay" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300">
+                        Save Schedule and Pay
+                    </button>
+                    <button  type="submit" id="close-form" class="text-green-500 hover:text-green-600 transition duration-300">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <h2 class="text-2xl font-semibold text-green-600 mb-4">Active Schedules</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {% for schedule in active_schedules %}
+            <div class="bg-white shadow-md rounded-lg p-4">
+                <p><strong>Frequency:</strong> {{ schedule.get_frequency_display }}</p>
+                <p><strong>Start Date:</strong> {{ schedule.start_date }}</p>
+                <p><strong>Price:</strong> ₵{{ schedule.price }}</p>
+                <form action="{% url 'cancel_schedule' schedule.id %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="cancel-schedule-btn mt-4 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300">
+                    Cancel Schedule
+                    </button>
+                    </form>
+            </div>
+        {% empty %}
+            <p>You have no active schedules.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const createBtn = document.getElementById('create-schedule-btn');
+        const scheduleForm = document.getElementById('schedule-form');
+        const closeForm = document.getElementById('close-form');
+        const frequencySelect = document.getElementById('{{ form.frequency.id_for_label }}');
+        const priceDisplay = document.getElementById('price-amount');
+        const pricing = {
+            'daily': 50.00,
+            'weekly': 200.00,
+            'biweekly': 350.00,
+            'fortnightly': 300.00
+        };
+
+        createBtn.addEventListener('click', () => {
+            scheduleForm.classList.remove('hidden');
+        });
+
+        closeForm.addEventListener('click', () => {
+            scheduleForm.classList.add('hidden');
+        });
+
+        if (frequencySelect) {
+            frequencySelect.addEventListener('change', function() {
+                const selectedFrequency = this.value;
+                const price = pricing[selectedFrequency];
+                priceDisplay.textContent = price ? price.toFixed(2) : '0.00';
+            });
+        }
+
+        // Initialize price display
+        if (frequencySelect) {
+            frequencySelect.dispatchEvent(new Event('change'));
+        }
+    });
+</script>
+{% endblock %}

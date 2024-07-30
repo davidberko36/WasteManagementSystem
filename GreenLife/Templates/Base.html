@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}GreenLife{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="flex flex-col min-h-screen pt-20"> <!-- Added pt-20 for top padding -->
+
+<!-- Navbar -->
+<nav class="bg-white shadow-md fixed top-0 left-0 right-0 z-50" x-data="{ isOpen: false }">
+    <div class="container mx-auto px-4 py-3">
+        <div class="flex justify-between items-center">
+            <a href="/" class="flex items-center">
+                <img src="{% static 'images/GreenLife-logo.jpg' %}" alt="GreenLife Logo" class="h-14 w-auto">
+            </a>
+
+            <!-- Mobile menu button -->
+            <button @click="isOpen = !isOpen" class="md:hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+
+            <!-- Desktop menu -->
+            <ul class="hidden md:flex space-x-4">
+                <li><a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}text-green-500{% endif %} hover:text-green-700">HOME</a></li>
+                <li><a href="{% url 'about' %}" class="{% if request.resolver_match.url_name == 'about' %}text-green-500{% endif %} hover:text-green-700">ABOUT</a></li>
+                <li><a href="{% url 'services' %}" class="{% if request.resolver_match.url_name == 'services' %}text-green-500{% endif %} hover:text-green-700">SERVICES</a></li>
+                <li><a href="{% url 'mission' %}" class="{% if request.resolver_match.url_name == 'mission' %}text-green-500{% endif %} hover:text-green-700">MISSION</a></li>
+                <li><a href="{% url 'pricing' %}" class="{% if request.resolver_match.url_name == 'pricing' %}text-green-500{% endif %} hover:text-green-700">PRICING</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'create_schedule' %}" class="hover:text-green-700">PLANS</a></li>
+                    <li><a href="{% url 'issues_dashboard' %}" class="hover:text-green-700">ISSUES</li>
+                    <li><a href="{% url 'settings' %}" class="{% if request.resolver_match.url_name == 'settings' %}text-green-500{% endif %} hover:text-green-700">SETTINGS</a></li>
+                    <li><a href="{% url 'logout' %}" class="hover:text-green-700">LOG OUT</a></li>
+                {% else %}
+                    <li><a href="{% url 'register_customer' %}" class="{% if request.resolver_match.url_name == 'register_customer' %}text-green-500{% endif %} hover:text-green-700">SIGN UP</a></li>
+                    <li><a href="{% url 'sign_in_customer' %}" class="{% if request.resolver_match.url_name == 'sign_in_customer' %}text-green-500{% endif %} hover:text-green-700">SIGN IN</a></li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <!-- Mobile menu -->
+        <div class="md:hidden" x-show="isOpen" @click.away="isOpen = false">
+            <ul class="pt-2 pb-3 space-y-1">
+                <li><a href="{% url 'home' %}" class="block px-3 py-2 {% if request.resolver_match.url_name == 'home' %}text-green-500{% endif %} hover:text-green-700">HOME</a></li>
+                <li><a href="{% url 'about' %}" class="block px-3 py-2 {% if request.resolver_match.url_name == 'about' %}text-green-500{% endif %} hover:text-green-700">ABOUT</a></li>
+                <li><a href="{% url 'services' %}" class="block px-3 py-2 {% if request.resolver_match.url_name == 'services' %}text-green-500{% endif %} hover:text-green-700">SERVICES</a></li>
+                <li><a href="{% url 'mission' %}" class="block px-3 py-2 {% if request.resolver_match.url_name == 'mission' %}text-green-500{% endif %} hover:text-green-700">MISSION</a></li>
+                <li><a href="{% url 'pricing' %}" class="block px-3 py-2 {% if request.resolver_match.url_name == 'pricing' %}text-green-500{% endif %} hover:text-green-700">PRICING</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'create_schedule' %}" class="block px-3 py-2 hover:text-green-700">PLANS</a></li>
+                     <li><a href="{% url 'issues_dashboard' %}" class="block px-3 py-2 hover:text-green-700">ISSUES</a></li>
+                    <li><a href="{% url 'settings' %}" class="block px-3 py-2 {% if request.resolver_match.url_name == 'settings' %}text-green-500{% endif %} hover:text-green-700">SETTINGS</a></li>
+                    <li><a href="{% url 'logout' %}" class="block px-3 py-2 hover:text-green-700">LOG OUT</a></li>
+                {% else %}
+                    <li><a href="{% url 'register_customer' %}" class="block px-3 py-2 {% if request.resolver_match.url_name == 'register_customer' %}text-green-500{% endif %} hover:text-green-700">SIGN UP</a></li>
+                    <li><a href="{% url 'sign_in_customer' %}" class="block px-3 py-2 {% if request.resolver_match.url_name == 'sign_in_customer' %}text-green-500{% endif %} hover:text-green-700">SIGN IN</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+    <!-- Main content -->
+    <main class="flex-grow">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2024 GreenLife. All rights reserved.</p>
+        </div>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
