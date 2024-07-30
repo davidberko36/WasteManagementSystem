@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'django_crontab',
-    
+    'django_apscheduler',
 ]
 
 # Crontab job for auto creating collections.
@@ -58,20 +58,20 @@ CRONJOBS = [
 
 # Allauth configuration
 # SITE_ID = 1
-#
-# ACCOUNT_EMAIL_REQUIRED = True
-# ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-# ACCOUNT_AUTHENTICATION_METHOD = 'email',
-# ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 2
-# ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 20
-# ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True
-#
+# Gmail settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'daberko364@gmail.com'
+EMAIL_HOST_PASSWORD = 'hmqg awsi ennj hxzf'
+
 #
 # Email settings
-EMAIL_BACKEND = 'django_mailjet.backends.MailjetBackend'
-MAILJET_API_KEY = 'efb5c2bd4f48dfaa294745435ff13055'
-MAILJET_API_SECRET = os.environ.get('MAILJET_API_SECRET')
-DEFAULT_FROM_EMAIL = 'GreenLifeGH@yahoo.com'
+# EMAIL_BACKEND = 'django_mailjet.backends.MailjetBackend'
+# MAILJET_API_KEY = 'efb5c2bd4f48dfaa294745435ff13055'
+# MAILJET_API_SECRET = os.environ.get('MAILJET_API_SECRET')
+# DEFAULT_FROM_EMAIL = 'GreenLifeGH@yahoo.com'
 
 
 MIDDLEWARE = [

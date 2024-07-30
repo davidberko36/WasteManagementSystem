@@ -11,6 +11,7 @@ from .models import Schedule, Customer, User, Payment
 from .tasks import check_schedule
 from decimal import Decimal
 from django.conf import settings
+from .email import send_welcome_email, send_subscription_email, send_cancellation_email
 # from django_paystack.models import Transaction
 # from django_paystack.utils import generate_reference
 
@@ -26,7 +27,8 @@ def register_customer(request):
     if request.method == 'POST':
         form = CustomerForm(request.POST)
         if form.is_valid():
-            form.save()
+            customer=form.save()
+            send_welcome_email(customer.user.email)
             return redirect('home')
     else:
         form = CustomerForm()
@@ -89,6 +91,7 @@ def create_schedule(request):
             schedule.customer = customer
             schedule.price = pricing[schedule.frequency]
             schedule.save()
+            send_subscription_email(schedule.customer.user.email)
 
             # Schedule the task to run daily
             # check_schedule.apply_async(args=[schedule.id], eta=schedule.start_date)
@@ -110,6 +113,8 @@ def create_schedule(request):
 @login_required
 def cancel_schedule(request, schedule_id):
     schedule = get_object_or_404(Schedule, id=schedule_id, customer=request.user.customer)
+    customer = request.user.customer
+    send_cancellation_email(customer.user.email)
     schedule.is_active = False
     schedule.save()
     messages.success(request, 'Your schedule has been cancelled successfully.')

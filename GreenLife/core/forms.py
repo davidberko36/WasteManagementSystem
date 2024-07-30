@@ -36,7 +36,6 @@ class CustomerForm(forms.ModelForm):
             username=self.cleaned_data['username'],
             address=self.cleaned_data['address'],
         )
-        send_welcome_email(user.email)
         return customer
 
 
