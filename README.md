@@ -1,5 +1,5 @@
 
-### Waste Management System
+# Waste Management System
 
 ## Overview
 
