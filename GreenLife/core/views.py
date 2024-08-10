@@ -3,6 +3,7 @@ from pyexpat.errors import messages
 from .forms import CustomerForm, DriverCreationForm, SignInForm, ScheduleCreationForm, CustomerSettingsForm
 from django.views import View
 from django.core.exceptions import ValidationError
+from django.db import IntegrityError
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.http import HttpResponseRedirect
