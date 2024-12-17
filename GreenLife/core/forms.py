@@ -4,6 +4,7 @@ from .models import User, Customer, Driver, Schedule, Issues
 from django.contrib.auth.forms import AuthenticationForm
 import json
 from .email import send_welcome_email
+from django.contrib.auth import authenticate
 
 
 class CustomerForm(forms.ModelForm):
@@ -87,6 +88,27 @@ class DriverCreationForm(forms.ModelForm):
         return driver
 
 
+# class DriverCreationForm(forms.Form):
+#     email = forms.EmailField(widget=forms.EmailInput(attrs={
+#         'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm'
+#     }))
+#     password = forms.CharField(widget=forms.PasswordInput(attrs={
+#         'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm'
+#     }))
+#     last_name = forms.CharField(widget=forms.TextInput(attrs={
+#         'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm'
+#     }))
+#     other_names = forms.CharField(widget=forms.TextInput(attrs={
+#         'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm'
+#     }))
+#     username = forms.CharField(widget=forms.TextInput(attrs={
+#         'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm'
+#     }))
+#     drivers_license = forms.CharField(widget=forms.TextInput(attrs={
+#         'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm'
+#     }))
+
+
 class ScheduleCreationForm(forms.ModelForm):
     PICKUP_FREQUENCY = (
         ('daily', 'Daily'),
@@ -151,3 +173,60 @@ class CustomerSettingsForm(forms.ModelForm):
             customer.user.save()
             customer.save()
         return customer
+
+
+# class CustomerSettingsForm(forms.ModelForm):
+#     password = forms.CharField(
+#         widget=forms.PasswordInput,
+#         required=False,
+#         help_text="Leave blank if you don't want to change your password."
+#     )
+#     confirm_password = forms.CharField(
+#         widget=forms.PasswordInput,
+#         required=False,
+#         help_text="Enter the same password again for confirmation."
+#     )
+#
+#     class Meta:
+#         model = Customer
+#         fields = ['username', 'email', 'phone_number', 'address']
+#
+#     def clean(self):
+#         cleaned_data = super().clean()
+#         password = cleaned_data.get('password')
+#         confirm_password = cleaned_data.get('confirm_password')
+#
+#         if password and password != confirm_password:
+#             raise forms.ValidationError("Passwords do not match.")
+#         return cleaned_data
+#
+#     def save(self, commit=True):
+#         user = super().save(commit=False)
+#         password = self.cleaned_data.get('password')
+#         if password:
+#             user.set_password(password)
+#         if commit:
+#             user.save()
+#         return user
+
+
+class QuoteRequestForm(forms.Form):
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Enter your email'}))
+    business_name = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter your business name'}))
+    business_address = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter your business address'}))
+
+
+class DriverSignInForm(forms.Form):
+    email = forms.EmailField()
+    password = forms.CharField(widget=forms.PasswordInput)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        email = cleaned_data.get('email')
+        password = cleaned_data.get('password')
+
+        if email and password:
+            user = authenticate(email=email, password=password)
+            if user is None or not hasattr(user, 'driver'):
+                raise forms.ValidationError("Invalid email or password.")
+        return cleaned_data

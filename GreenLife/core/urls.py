@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import home, register_customer, register_driver, about, SignInView, logout_view, mission, services, pricing, create_schedule, cancel_schedule, settings, issues_dashboard, report_issue
+from .views import home, register_customer, register_driver, about, SignInView, logout_view, mission, services, pricing, create_schedule, cancel_schedule, settings, issues_dashboard, report_issue, request_quote, driver_sign_in, driver_collections
 
 
 urlpatterns = [
@@ -15,6 +15,9 @@ urlpatterns = [
     path('cancel-schedule/<int:schedule_id>/', cancel_schedule, name='cancel_schedule'),
     path('issues/', issues_dashboard, name='issues_dashboard'),
     path('report-issue/', report_issue, name='report_issue'),
+    path('request-quote/', request_quote, name='request_quote'),
     path('sign_in/customer/', SignInView.as_view(), name='sign_in_customer'),
     path('logout/', logout_view, name='logout'),
+    path('driver/signin', driver_sign_in, name='driver_signin'),
+    path('driver/<int:driver_id>/collections/', driver_collections, name='driver_collections'),
 ]

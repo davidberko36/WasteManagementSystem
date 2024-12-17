@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from pyexpat.errors import messages
-from .forms import CustomerForm, DriverCreationForm, SignInForm, ScheduleCreationForm, CustomerSettingsForm
+from .forms import CustomerForm, DriverCreationForm, SignInForm, ScheduleCreationForm, CustomerSettingsForm, QuoteRequestForm, DriverSignInForm
 from django.views import View
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
@@ -9,11 +9,11 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from .models import Schedule, Customer, User, Payment, Issues
+from .models import Schedule, Customer, User, Payment, Issues, Driver, Collection
 from .tasks import check_schedule
 from decimal import Decimal
 from django.conf import settings
-from .email import send_welcome_email, send_subscription_email, send_cancellation_email, send_complaint_email
+from .email import send_welcome_email, send_subscription_email, send_cancellation_email, send_complaint_email, send_quote_email
 # from django_paystack.models import Transaction
 # from django_paystack.utils import generate_reference
 
@@ -150,6 +150,21 @@ def register_driver(request):
     return render(request, 'drivercreation.html', {'form': form})
 
 
+def driver_sign_in(request):
+    if request.method == 'POST':
+        form = DriverSignInForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = authenticate(email=email, password=password)
+            if user:
+                login(request, user)
+                return redirect('driver_collections', driver_id=request.user.driver.id)  # Redirect to a success page or dashboard
+    else:
+        form = DriverSignInForm()
+    return render(request, 'driversignin.html', {'form': form})
+
+
 
 @login_required
 def issues_dashboard(request):
@@ -172,6 +187,25 @@ def report_issue(request):
     return redirect('issues_dashboard')
 
 
+def request_quote(request):
+    if request.method == 'POST':
+        form = QuoteRequestForm(request.POST)
+        if form.is_valid():
+            # Send email to notify the user
+            email = form.cleaned_data['email']
+            business_name = form.cleaned_data['business_name']
+            business_address = form.cleaned_data['business_address']
+
+            # Craft the email message
+            send_quote_email(email)
+
+            # Redirect to a success page (or return a success message)
+            return redirect('home')  # You can create a success page/view for better user experience.
+    else:
+        form = QuoteRequestForm()
+
+    return render(request, 'request_quote.html', {'form': form})
+
 
 def about(request):
     return render(request, 'About.html')
@@ -187,3 +221,15 @@ def services(request):
 
 def pricing(request):
     return render(request, 'pricing.html')
+
+
+def driver_collections(request, driver_id):
+    driver = get_object_or_404(Driver, id=driver_id)
+    collections = Collection.objects.filter(driver=driver)
+
+    context = {
+        'driver': driver,
+        'collections': collections,
+    }
+
+    return render(request, 'driver_collections.html', context)

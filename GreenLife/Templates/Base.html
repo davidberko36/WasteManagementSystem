@@ -73,11 +73,27 @@
     </main>
 
     <!-- Footer -->
+{#    <footer class="bg-gray-800 text-white py-6">#}
+{#        <div class="container mx-auto px-4 text-center">#}
+{#            <p>&copy; 2024 GreenLife. All rights reserved.</p>#}
+{#        </div>#}
+{#    </footer>#}
+
+    <!-- Footer -->
     <footer class="bg-gray-800 text-white py-6">
         <div class="container mx-auto px-4 text-center">
             <p>&copy; 2024 GreenLife. All rights reserved.</p>
+
+            {% if not user.is_authenticated %}
+            <ul class="flex justify-center space-x-4">
+                <li><a href="{% url 'driver_signin' %}" class="hover:text-gray-400">Driver Login</a></li>
+                <li><a href="http://127.0.0.1:8000/admin/" class="hover:text-gray-400">Admin Login</a></li>
+                <li><a href="{% url 'register_driver' %}" class="hover:text-gray-400">Register as Driver</a></li>
+            </ul>
+            {% endif %}
         </div>
     </footer>
+
 
     {% block extra_js %}{% endblock %}
 </body>

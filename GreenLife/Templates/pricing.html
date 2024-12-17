@@ -67,7 +67,7 @@
                 <li>Suitable for large households</li>
                 <li>24/7 customer support</li>
             </ul>
-            <a href="#" class="block text-center bg-green-600 text-white py-2 rounded-full hover:bg-green-700 transition duration-300">Choose Plan</a>
+            <a href="{% if user.is_authenticated %}{% url 'create_schedule' %}{% else %}{% url 'sign_in_customer' %}{% endif %}" class="block text-center bg-green-600 text-white py-2 rounded-full hover:bg-green-700 transition duration-300">Choose Plan</a>
         </div>
 
         <!-- Weekly Plan -->
@@ -79,7 +79,7 @@
                 <li>Ideal for average households</li>
                 <li>Free recycling bin</li>
             </ul>
-            <a href="#" class="block text-center bg-green-600 text-white py-2 rounded-full hover:bg-green-700 transition duration-300">Choose Plan</a>
+            <a href="{% if user.is_authenticated %}{% url 'create_schedule' %}{% else %}{% url 'sign_in_customer' %}{% endif %}" class="block text-center bg-green-600 text-white py-2 rounded-full hover:bg-green-700 transition duration-300">Choose Plan</a>
         </div>
 
         <!-- Bi-weekly Plan -->
@@ -91,7 +91,7 @@
                 <li>Perfect for small families</li>
                 <li>Includes garden waste collection</li>
             </ul>
-            <a href="#" class="block text-center bg-green-600 text-white py-2 rounded-full hover:bg-green-700 transition duration-300">Choose Plan</a>
+            <a href="{% if user.is_authenticated %}{% url 'create_schedule' %}{% else %}{% url 'sign_in_customer' %}{% endif %}" class="block text-center bg-green-600 text-white py-2 rounded-full hover:bg-green-700 transition duration-300">Choose Plan</a>
         </div>
 
         <!-- Fortnightly Plan -->
@@ -103,7 +103,7 @@
                 <li>Economical option</li>
                 <li>Includes quarterly waste audit</li>
             </ul>
-            <a href="#" class="block text-center bg-green-600 text-white py-2 rounded-full hover:bg-green-700 transition duration-300">Choose Plan</a>
+            <a href="{% if user.is_authenticated %}{% url 'create_schedule' %}{% else %}{% url 'sign_in_customer' %}{% endif %}" class="block text-center bg-green-600 text-white py-2 rounded-full hover:bg-green-700 transition duration-300">Choose Plan</a>
         </div>
     </div>
 
@@ -120,7 +120,7 @@
                 <li>Basic waste sorting</li>
                 <li>Monthly waste report</li>
             </ul>
-            <a href="#" class="block text-center bg-green-600 text-white py-2 rounded-full hover:bg-green-700 transition duration-300">Get Quote</a>
+            <a href="{% url 'request_quote' %}" class="block text-center bg-green-600 text-white py-2 rounded-full hover:bg-green-700 transition duration-300">Get Quote</a>
         </div>
 
         <!-- Medium Enterprise Plan -->
@@ -134,7 +134,7 @@
                 <li>Weekly waste report</li>
                 <li>Recycling program setup</li>
             </ul>
-            <a href="#" class="block text-center bg-green-600 text-white py-2 rounded-full hover:bg-green-700 transition duration-300">Get Quote</a>
+            <a href="{% url 'request_quote' %}" class="block text-center bg-green-600 text-white py-2 rounded-full hover:bg-green-700 transition duration-300">Get Quote</a>
         </div>
 
         <!-- Large Corporation Plan -->
@@ -149,7 +149,7 @@
                 <li>On-site waste management consultation</li>
                 <li>Tailored recycling and sustainability programs</li>
             </ul>
-            <a href="#" class="block text-center bg-green-600 text-white py-2 rounded-full hover:bg-green-700 transition duration-300">Contact Us</a>
+            <a href="{% url 'request_quote' %}" class="block text-center bg-green-600 text-white py-2 rounded-full hover:bg-green-700 transition duration-300">Contact Us</a>
         </div>
     </div>
 </div>

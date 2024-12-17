@@ -71,11 +71,17 @@ class Driver(models.Model):
     username = models.CharField(max_length=30, null=False, blank=False)
     driver_license = models.CharField(max_length=30, null=False, blank=False)
 
+    def __str__(self):
+        return self.username
+
 
 class Vehicle(models.Model):
     license_plate = models.CharField(max_length=30, null=False, blank=False)
     capacity = models.PositiveIntegerField()
     Driver = models.ForeignKey('Driver', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.Driver.username}'s truck"
 
 
 class Schedule(models.Model):
